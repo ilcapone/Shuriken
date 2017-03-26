@@ -1,7 +1,15 @@
 
 library(stringr)
 library(ggplot2)
+library(net.security)
 
+#install net.security from github devel branch
+#devtools::install_github(repo = "r-net-tools/net.security", ref = "devel")
+
+#extract datagrame from net.security pacage
+cves <- GetDataFrame("cves")
+
+#extract dataframe from links.cvs
 GetScrapyLinksDataframe <- function() {
   links <- read.csv("data/links.csv", header=T, sep=",")
   linksUrl <- str_split_fixed(links$url, "/", 4)
@@ -14,9 +22,11 @@ GetScrapyLinksDataframe <- function() {
 
 PlotGrafic <- function()
 {
-  #scrapyData <- GetScrapyLinksDataframe() 
+  scrapyData <- GetScrapyLinksDataframe() 
   #geom_line()
   p1 <- ggplot(scrapyData, aes(x = scrapyData$time, y= scrapyData$urls)) + geom_point()
   p1
 }
+
+
 
