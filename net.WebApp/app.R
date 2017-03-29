@@ -5,19 +5,21 @@ library(ggplot2)
 library(net.security)
 
 ui <- dashboardPage(
+  skin = "red",
   dashboardHeader(title = "Shuriken dashboard"),
   dashboardSidebar(
     
     sidebarMenu(
-      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+      
+      menuItem("Crawler", tabName = "crawler", icon = icon("thermometer-half")),
+      menuItem("WebVul", tabName = "webvul", icon = icon("free-code-camp"))
     )
     
   ),
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard",
+      tabItem(tabName = "crawler",
                 
               fluidRow(
                 
@@ -32,7 +34,7 @@ ui <- dashboardPage(
       ),
       
       # Second tab content
-      tabItem(tabName = "widgets",
+      tabItem(tabName = "webvul",
               h2("Widgets tab content")
       )
     )
