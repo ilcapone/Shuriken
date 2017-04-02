@@ -20,22 +20,25 @@ class Knef(CrawlSpider):
     def __init__(self, startUrl=None, *args, **kwargs):
         super(Knef, self).__init__(*args, **kwargs)
         print "[$ crawler $] Start URL : " + startUrl
-        fieldnames = ['url', 'urlComes', 'time']
-        self.csvwriter = csv.DictWriter(open('data/links_crawler.csv', 'wb'), fieldnames=fieldnames)
+        fieldnames = ['Id','url', 'urlComes', 'time']
+        self.csvwriter = csv.DictWriter(open('data/crawler_links.csv', 'wb'), fieldnames=fieldnames)
         self.csvwriter.writeheader()
         self.start_urls = [startUrl]
+        self.i=0
         
-    rules = (Rule(LinkExtractor(allow=()), callback='parse_item', follow=True),)
+    rules = (Rule(LinkExtractor(allow=(), deny_domains=('movistar.es','linkedin.com','apple.com','instagram.com','tuenti.com','facebook.com', 'youtube.com', 'twitter.com', 'microsoft.com', 'wikipedia.org', 'smugmug.com', 'google.com', 'mozilla.org')), callback='parse_item', follow=True),)
 
     def parse_item(self, response):
 
-        for link in LinkExtractor(allow=(),deny = self.allowed_domains).extract_links(response):
+        for link in LinkExtractor(allow=(),deny = self.allowed_domains, deny_domains=('movistar.es','linkedin.com','apple.com','instagram.com','tuenti.com','facebook.com', 'youtube.com', 'twitter.com', 'microsoft.com', 'wikipedia.org', 'smugmug.com', 'google.com', 'mozilla.org')).extract_links(response):
             item = UrlKnef()
+            item['Id'] =  self.i
+            self.i = self.i + 1
             item['url'] =  link.url
             item['time'] = str(datetime.now())
             item['urlComes'] = response.url
             self.logger.info('[$ crawler $] Link url search: %s', link.url)
-            self.csvwriter.writerow({'url': item['url'], 'urlComes': item['urlComes'], 'time': item['time']})
+            self.csvwriter.writerow({'Id': item['Id'], 'url': item['url'], 'urlComes': item['urlComes'], 'time': item['time']})
             return item
 
 def start_Crawler():

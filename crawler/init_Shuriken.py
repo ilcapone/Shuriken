@@ -22,9 +22,13 @@ def crawle_start():
 	print "[$ crawler $] Start crawler"
 	crawlerModule.start_Crawler()
 
-def nikto_start():
+def nikto_start_basic():
 	print "[$ nikto $] Start nikto"
 	niktoModule.basic_nikto()
+
+def nikto_start_crawler():
+	print "[$ nikto $] Start nikto"
+	niktoModule.crawler_nikto()
 
 def portScann_start():
 	print "[$ portScann $] Start portScann"
@@ -39,7 +43,7 @@ def wig_strat():
 	print "[$ wig $] Output file linksVuls_wig.txt"
 
 
-options = {'0':exit, '1':info, '2':crawle_start, '3':nikto_start, '4':portScann_start, '5':wig_strat}
+options = {'0':exit, '1':info, '2':crawle_start, '3':nikto_start_crawler, '4':nikto_start_basic, '5':portScann_start, '6':wig_strat}
 
 def main():
 	
@@ -50,9 +54,11 @@ def main():
 		print "                    0 : Exit"
 		print "                    1 : Info"
 		print "                    2 : Crawler"
-		print "                    3 : Nikto"
-		print "                    4 : Port Scann"
-		print "                    5 : Wig"
+		print "                    3 : Nikto crawler scan"
+		print "                    4 : Nikto single scan"
+		print "                    5 : Port Scann"
+		print "                    6 : Wig"
+
 		print "\n"
 		n = raw_input('[$ shuriken $] > ')
 		options[n]()
