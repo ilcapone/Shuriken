@@ -43,21 +43,13 @@ ui <- dashboardPage(
 
 server <- function(input, output) { 
   
-  #scrapyData <- GetScrapyLinksDataframe()
+  scrapyData <- GetScrapyLinksDataframe()
   
   output$coolplot <- renderPlot({
     
-    p1 <- ggplot(scrapyData, aes(x = scrapyData$time, y= scrapyData$urls)) + geom_point()
+    p1 <- ggplot(scrapyData, aes(x = scrapyData$time, y= scrapyData$url)) + geom_point()
     p1
     
-  })
-  
-  set.seed(122)
-  histdata <- rnorm(500)
-  
-  output$plot1 <- renderPlot({
-    data <- histdata[seq_len(input$slider)]
-    hist(data)
   })
   
 }
