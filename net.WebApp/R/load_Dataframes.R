@@ -1,0 +1,50 @@
+
+#extract dataframe from crawler_links.cvs
+#example scrapyData <- GetScrapyLinksDataframe() 
+GetScrapyLinksDataframe <- function() {
+  links <- read.csv("data/crawler_links.csv", header=T, sep=",")
+  #filtrado de urls
+  #linksUrl <- str_split_fixed(links$url, "/", 4)
+  split1=str_split_fixed(links$time, " ", 2)
+  time1 <- gsub( ':', '', split1[,2])
+  #con el filtrado de url
+  #scrapyData <-data.frame("url"=linksUrl[,3], "urlComes"=links$urlComes,"time"=time1)
+  scrapyData <-data.frame("url"=links$url, "urlComes"=links$urlComes,"time"=time1)
+  scrapyData %>% mutate_if(is.factor, as.character) -> scrapyData
+  return(scrapyData)
+}
+
+#extract dataframe from links.cvs
+#example vuls <- GetNiktoVulneravilitysDataframe() 
+GetNiktoVulneravilitysDataframe <- function(){
+  niktoVuls <- read.csv("data/nikto_crawler_links.csv", header=F, sep=",")
+  VulsData <- data.frame(matrix(ncol = 6, nrow = 0))
+  i=0
+  while(i <= nrow(niktoVuls)) {
+      VulsData = rbind(VulsData,niktoVuls[i,])
+      i= i +1
+  }
+  x <- c("url", "ip", "port", "osvdb","httpRequest", "urlExtended", "VulInfo" )
+  colnames(VulsData) <- x
+  VulsData %>% mutate_if(is.factor, as.character) -> VulsData
+  VulsData <- filter(VulsData, url != "Nikto - v2.1.6/2.1.5")
+  return(VulsData)
+}
+
+#extract dataframe from links.cvs
+#example scan <- GetNmapScanIpDataframe() 
+GetNmapScanIpDataframe <- function(){
+  nmapScan <- read.csv("data/nmap_crawler.csv", header=F, sep=";")
+  VulsData <- data.frame(matrix(ncol = 12, nrow = 0))
+  i=0
+  while(i <= nrow(nmapScan)) {
+      VulsData = rbind(VulsData,nmapScan[i,])
+      i= i +1
+  }
+  x <- c("host","hostname","hostname_type","protocol",
+    "port","name","state","product","extrainfo","reason","version","conf","cpe")
+  colnames(VulsData) <- x
+  VulsData %>% mutate_if(is.factor, as.character) -> VulsData
+  VulsData <- filter(VulsData, host != "host")
+  return(VulsData)
+}
