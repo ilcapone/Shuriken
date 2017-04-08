@@ -1,0 +1,18 @@
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+151.80.66.193;;;tcp;21;ftp;open;Pure-FTPd;;syn-ack;;10;cpe:/a:pureftpd:pure-ftpd
+151.80.66.193;;;tcp;25;smtp;open;;;syn-ack;;3;
+151.80.66.193;;;tcp;26;smtp;open;Exim smtpd;;syn-ack;4.88;10;cpe:/a:exim:exim:4.88
+151.80.66.193;;;tcp;53;domain;open;ISC BIND;;syn-ack;9.8.2rc1;10;cpe:/o:redhat:enterprise_linux:6
+151.80.66.193;;;tcp;80;http;open;Apache httpd;;syn-ack;;10;cpe:/a:apache:http_server
+151.80.66.193;;;tcp;110;pop3;open;Dovecot pop3d;;syn-ack;;10;cpe:/a:dovecot:dovecot
+151.80.66.193;;;tcp;143;imap;open;Dovecot imapd;;syn-ack;;10;cpe:/a:dovecot:dovecot
+151.80.66.193;;;tcp;443;http;open;Apache httpd;;syn-ack;;10;cpe:/a:apache:http_server
+151.80.66.193;;;tcp;465;smtp;open;Exim smtpd;;syn-ack;4.88;10;cpe:/a:exim:exim:4.88
+151.80.66.193;;;tcp;587;smtp;open;Exim smtpd;;syn-ack;4.88;10;cpe:/a:exim:exim:4.88
+151.80.66.193;;;tcp;993;imap;open;Dovecot imapd;;syn-ack;;10;cpe:/a:dovecot:dovecot
+151.80.66.193;;;tcp;995;pop3;open;Dovecot pop3d;;syn-ack;;10;cpe:/a:dovecot:dovecot
+151.80.66.193;;;tcp;2382;ssh;open;OpenSSH;protocol 2.0;syn-ack;5.3;10;cpe:/a:openbsd:openssh:5.3
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+198.101.192.213;;;tcp;22;ssh;open;OpenSSH;protocol 2.0;syn-ack;5.3;10;cpe:/a:openbsd:openssh:5.3
+198.101.192.213;;;tcp;80;http;open;Apache httpd;(CentOS);syn-ack;2.2.15;10;cpe:/a:apache:http_server:2.2.15
+198.101.192.213;;;tcp;443;http;open;Apache httpd;(CentOS);syn-ack;2.2.15;10;cpe:/a:apache:http_server:2.2.15

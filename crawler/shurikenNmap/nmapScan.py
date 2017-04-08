@@ -101,7 +101,8 @@ def back():
 	print "[$ nmap $] Back portScann menu \n"
 
 
-options = {'0': basic_scan, '1': arguments_scan, '2': evade_ids, '3': back}
+
+options = {'0': basic_scan, '1': arguments_scan, '2': evade_ids ,'3': back}
 
 def nmapMenu():
 	print "                       - Nmap Options -"

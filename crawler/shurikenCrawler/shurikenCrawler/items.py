@@ -9,11 +9,10 @@ import scrapy
 
 
 class UrlKnef(scrapy.Item):
-    url = scrapy.Field()
-    time = scrapy.Field()
-    urlComes = scrapy.Field()
-    #link_Tourls = scrapy.Field()
-    #from_url = scrapy.Field()
+	Id = scrapy.Field()
+	url = scrapy.Field()
+	time = scrapy.Field()
+	urlComes = scrapy.Field()
 
 class VulnWeb(scrapy.Item):
 	url = scrapy.Field()
