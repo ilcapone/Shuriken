@@ -57,3 +57,38 @@ GetNumberOfVuls <- function(){
   Tidy_Numer_VulsData %>% mutate_if(is.factor, as.character) -> Tidy_Numer_VulsData
   return(Tidy_Numer_VulsData)
 }
+
+Get_XSS_CVEs <- function(){
+  XSS_CVES <- cves[grepl("XSS", cves$description),]
+  return(XSS_CVES)
+}
+
+Get_Headers_CVEs <- function(){
+  XHeader <- cves[grepl("header", cves$description),]
+  return(XHeader)
+}
+
+Get_MIME_CVEs <- function(){
+  XMIME <- cves[grepl("MIME", cves$description),]
+  return(XMIME)
+}
+
+Get_MicrosoftVersion_CVEs <- function(version){
+  Microsoft <- cves[grepl("Microsoft", cves$description),]
+  Microsoft_Version <- Microsoft[grepl(version, Microsoft$cpe.software),]
+  return(Microsoft_Version)
+}
+
+Get_ApachetVersion_CVEs <- function(version){
+  Apache <- cves[grepl("Microsoft", cves$description),]
+  Microsoft_Version <- Microsoft[grepl(version, Apache$cpe.software),]
+  return(Microsoft_Version)
+}
+
+Get_ASPNET_CVEs <- function(){
+  XASPNET <- cves[grepl("ASP.NET", cves$description),]
+  return(XASPNET)
+}
+
+
+
