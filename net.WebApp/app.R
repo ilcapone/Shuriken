@@ -10,8 +10,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     
     sidebarMenu(
-      
-      menuItem("Crawler", tabName = "crawler", icon = icon("thermometer-half")),
+      menuItem("Resum", tabName = "resum", icon = icon("thermometer-half")),
       menuItem("WebVul", tabName = "webvul", icon = icon("free-code-camp"))
     )
     
@@ -19,17 +18,11 @@ ui <- dashboardPage(
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "crawler",
+      tabItem(tabName = "resum",
                 
               fluidRow(
-                
-                box(plotOutput("coolplot", height = 1000),
-                    width = 8),
-                
-                box(
-                  title = "Timeline",
-                  sliderInput("time_slider", "Time slots:", 1, 100, 50),
-                  width = 4)
+                box(plotOutput("numverofvuls", height = 1000),
+                    width = 12)
               )  
       ),
       
@@ -43,13 +36,13 @@ ui <- dashboardPage(
 
 server <- function(input, output) { 
   
-  scrapyData <- GetScrapyLinksDataframe()
+  t_wVuls <- GetNumberOfVuls()
   
-  output$coolplot <- renderPlot({
-    
-    p1 <- ggplot(scrapyData, aes(x = scrapyData$time, y= scrapyData$url)) + geom_point()
-    p1
-    
+  output$numverofvuls <- renderPlot({
+   df2=t_wVuls[order(t_wVuls$Vulneravilitys),]
+   df2$url=factor(df2$url,levels=df2$url)
+   g <- ggplot(df2,aes(x=factor(url),y=Vulneravilitys)) + geom_bar(stat='identity') + coord_flip() + labs(y='Vulnerailitys',x='url')
+   g + ggtitle("Number of vulnerabilities per scanned url") 
   })
   
 }

@@ -39,15 +39,12 @@ GetNumberOfVuls <- function(){
   while(i <= nrow(Numer_VulsData)) {
     current_url = as.character(Numer_VulsData$url[i])
     if (!(current_url %in% Control_Repeat_Urls$current_url)){
-      print(current_url %in% Control_Repeat_Urls)
-      print(Control_Repeat_Urls)
       Current_Url_Check <- filter(Numer_VulsData, url == current_url)
       Current_Url_Check <- summarise(Current_Url_Check, url = Current_Url_Check$url[1], Vulneravilitys = sum(Current_Url_Check$Vulneravilitys))
       Tidy_Numer_VulsData = rbind(Tidy_Numer_VulsData,Current_Url_Check)
       new_row = data.frame(current_url)
       Control_Repeat_Urls = rbind(Control_Repeat_Urls,new_row)
       Control_Repeat_Urls %>% mutate_if(is.factor, as.character) -> Control_Repeat_Urls
-      print(Tidy_Numer_VulsData)
     }
     i = i +1
   }
