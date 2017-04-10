@@ -19,7 +19,7 @@ def basic_nikto():
 		exit()
 	print "[$ nikto $] Starting nikto ..."
 	switches = webscan
-	nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display V -F csv -output data/nikto_basic_scan.csv"
+	nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_basic_scan.csv"
 	subprocess.call(nikto,shell = True)
 	print "[$ nikto $] Output file linksVuls_nikto.csv"
 
@@ -62,7 +62,7 @@ def launch_nikto(url):
 	else:
 		print "[$ nikto $] Starting nikto scanning " + url
 		switches = url
-		nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display V -F csv -output data/nikto_crawler_links.csv"
+		nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_crawler_links.csv"
 		subprocess.call(nikto,shell = True)
 
 
