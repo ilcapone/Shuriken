@@ -3,10 +3,8 @@
 #example scrapyData <- GetScrapyLinksDataframe() 
 GetScrapyLinksDataframe <- function() {
   links <- read.csv("data/crawler_links.csv", header=T, sep=",")
-  #linksUrl <- str_split_fixed(links$url, "/", 4)
   split1=str_split_fixed(links$time, " ", 2)
   time1 <- gsub( ':', '', split1[,2])
-  #scrapyData <-data.frame("url"=linksUrl[,3], "urlComes"=links$urlComes,"time"=time1)
   scrapyData <-data.frame("url"=links$url, "urlComes"=links$urlComes,"time"=time1)
   scrapyData %>% mutate_if(is.factor, as.character) -> scrapyData
   return(scrapyData)

@@ -86,3 +86,8 @@ Get_ASPNET_CVEs <- function(){
   XASPNET <- cves[grepl("ASP.NET", cves$description),]
   return(XASPNET)
 }
+
+Select_fromCPE <- function(find_cpe){
+  filter_cpe <- filter(cpes, cpe.23 == find_cpe)
+  return(filter_cpe)
+}
