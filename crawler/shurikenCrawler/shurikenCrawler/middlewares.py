@@ -7,6 +7,10 @@
 
 from scrapy import signals
 
+class ProxyMiddleware(object):
+    def process_request(self, request, spider):
+        request.meta['proxy'] = "http://52.39.8.161:3128"
+
 
 class ShurikencrawlerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,

@@ -86,6 +86,3 @@ Get_ASPNET_CVEs <- function(){
   XASPNET <- cves[grepl("ASP.NET", cves$description),]
   return(XASPNET)
 }
-
-
-

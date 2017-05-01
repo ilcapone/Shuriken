@@ -35,12 +35,12 @@ def portScann_start():
 	shuriken.main()
 
 def wig_strat():
-	f = open("linksVuls_wig.txt", "w")
+	f = open("Vuls_wig.txt", "w")
 	print "[$ wig $] Start wig"
 	n = raw_input('[$ wig $] Set url > ')
 	print "[$ wig $] Wig web vulnerability scan is running ...."
 	exit_code = subprocess.call("WebVuls/wig/wig/wig.py " + n, shell=True, stdout=f)
-	print "[$ wig $] Output file linksVuls_wig.txt"
+	print "[$ wig $] Output file Vuls_wig.txt"
 
 
 options = {'0':exit, '1':info, '2':crawle_start, '3':nikto_start_crawler, '4':nikto_start_basic, '5':portScann_start, '6':wig_strat}

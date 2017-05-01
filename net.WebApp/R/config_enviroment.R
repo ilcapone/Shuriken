@@ -6,9 +6,7 @@ source("R/extractInfo.R")
 
 #extract datagrame from net.security pacage
 cves <- GetDataFrame("cves")
-print("[$ shuriken $] Load cves in cves dataframe")
 cpes <- GetDataFrame("cpes")
-print("[$ shuriken $] Load cpes in cpes dataframe")
 #extract dataframes from csv files crawler
 crawlerlinks <- GetScrapyLinksDataframe()
 print("[$ shuriken $] Load data/crawler_links.csv in crawlerlinks dataframe")
@@ -20,3 +18,8 @@ print("[$ shuriken $] Curren functions: ")
 print("[$ shuriken $]                  * GetVulneravility_fromUrlDataframe('url')")
 print("[$ shuriken $]                  * GetNumberOfVuls()")
 print("[$ shuriken $] Finish load enviroment")
+print("[$ shuriken $] Current Dataframes: ")
+print("[$ shuriken $] - cves")
+print("[$ shuriken $] - cpes")
+print("[$ shuriken $] - niktovuls")
+print("[$ shuriken $] - nmapscan")

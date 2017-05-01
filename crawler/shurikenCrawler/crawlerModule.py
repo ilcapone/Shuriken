@@ -10,12 +10,15 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy.loader import ItemLoader
 from shurikenCrawler.items import UrlKnef
+from shurikenCrawler.middlewares import ProxyMiddleware
 from datetime import datetime
 
 
 class Knef(CrawlSpider):
     name = 'knef'
     allowed_domains = []
+
+    #custom_settings = {"DOWNLOADER_MIDDLEWARES": {'shurikenCrawler.middlewares.ProxyMiddleware': 100,}}
 
     def __init__(self, startUrl=None, *args, **kwargs):
         super(Knef, self).__init__(*args, **kwargs)
