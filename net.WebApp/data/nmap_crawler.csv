@@ -13,6 +13,71 @@ host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;ve
 151.80.66.193;;;tcp;995;pop3;open;Dovecot pop3d;;syn-ack;;10;cpe:/a:dovecot:dovecot
 151.80.66.193;;;tcp;2382;ssh;open;OpenSSH;protocol 2.0;syn-ack;5.3;10;cpe:/a:openbsd:openssh:5.3
 host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
-198.101.192.213;;;tcp;22;ssh;open;OpenSSH;protocol 2.0;syn-ack;5.3;10;cpe:/a:openbsd:openssh:5.3
-198.101.192.213;;;tcp;80;http;open;Apache httpd;(CentOS);syn-ack;2.2.15;10;cpe:/a:apache:http_server:2.2.15
-198.101.192.213;;;tcp;443;http;open;Apache httpd;(CentOS);syn-ack;2.2.15;10;cpe:/a:apache:http_server:2.2.15
+104.83.49.134;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+104.83.49.134;;;tcp;443;http;open;Apache httpd;;syn-ack;;10;cpe:/a:apache:http_server
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+23.60.210.7;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+23.60.210.7;;;tcp;443;http;open;Apache httpd;;syn-ack;;10;cpe:/a:apache:http_server
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+50.56.75.34;;;tcp;21;ftp;open;Pure-FTPd;;syn-ack;;10;cpe:/a:pureftpd:pure-ftpd
+50.56.75.34;;;tcp;80;http;open;Apache httpd;;syn-ack;;10;cpe:/a:apache:http_server
+50.56.75.34;;;tcp;443;ssl;open;Apache httpd;SSL-only mode;syn-ack;;10;cpe:/a:apache:http_server
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+173.0.88.210;;;tcp;80;http-proxy;open;F5 BIG-IP load balancer http proxy;;syn-ack;;10;
+173.0.88.210;;;tcp;443;http;open;nginx;;syn-ack;;10;cpe:/a:igor_sysoev:nginx
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+104.83.68.210;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+104.83.68.210;;;tcp;443;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.211.181.235;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+66.211.181.235;;;tcp;443;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.211.185.81;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+66.211.185.81;;;tcp;443;socks5;open;;"No authentication; connection failed";syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+104.83.59.46;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+104.83.59.46;;;tcp;443;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.135.216.158;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.211.160.137;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+104.83.7.101;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+104.83.7.101;;;tcp;443;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+69.172.200.241;;;tcp;80;http;open;DOSarrest;;syn-ack;;10;
+69.172.200.241;;;tcp;443;http;open;Microsoft IIS httpd;;syn-ack;8.5;10;cpe:/o:microsoft:windows
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+185.58.74.136;;;tcp;21;ftp;open;Microsoft ftpd;;syn-ack;;10;cpe:/o:microsoft:windows
+185.58.74.136;;;tcp;25;tcpwrapped;open;;;syn-ack;;8;
+185.58.74.136;;;tcp;80;http;open;Microsoft IIS httpd;;syn-ack;8.0;10;cpe:/o:microsoft:windows
+185.58.74.136;;;tcp;443;https;open;;;syn-ack;;3;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.135.216.157;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+192.168.0.1;;;tcp;80;http;open;;;syn-ack;;3;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.135.220.42;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+95.100.245.78;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+95.100.245.78;;;tcp;443;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+23.223.96.161;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+23.223.96.161;;;tcp;443;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+95.101.25.149;;;tcp;80;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+95.101.25.149;;;tcp;443;http;open;AkamaiGHost;Akamai's HTTP Acceleration/Mirror service;syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.211.185.82;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+66.211.185.82;;;tcp;443;socks5;open;;"No authentication; connection failed";syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.211.160.87;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+66.211.160.87;;;tcp;443;socks5;open;;"No authentication; connection failed";syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.211.160.196;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+66.211.160.196;;;tcp;443;socks5;open;;"No authentication; connection failed";syn-ack;;10;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+66.135.216.190;;;tcp;80;http;open;Apache Tomcat/Coyote JSP engine;;syn-ack;1.1;10;cpe:/a:apache:coyote_http_connector:1.1
+66.135.216.190;;;tcp;443;socks5;open;;"No authentication; connection failed";syn-ack;;10;

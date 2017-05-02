@@ -1,11 +1,27 @@
-# extract only de info from concret url
-GetVulneravility_fromUrlDataframe <- function (parameter){
+#-------------------------------------------------------------------------------------
+
+######## FUNCTIONS FOR CRAWLER EXTRACT INFO #######
+
+# extract only de infoVuls nikcto from concret url
+GetVulneravilityNikto_fromUrlDataframe <- function (parameter){
   parameter <- as.character(parameter)
   VulsData_numer_vuls <- GetNiktoVulneravilitysDataframe()
   VulsData_numer_vuls <- filter(VulsData_numer_vuls, url == parameter)
   return(VulsData_numer_vuls)
 }
 
+# extract only infoVuls Nmap from url
+GetVulsNMAP_fromUrlDataframe <- function(urlParameter){
+  #first search IP from url
+  search_IP <- GetVulneravilityNikto_fromUrlDataframe(urlParameter)
+  ip <- search_IP$ip[1]
+  IPParameter <- as.character(ip)
+  VulsData_nmap <- GetNmapScanIpDataframe()
+  VulsData_nmap <- filter(VulsData_nmap, host == IPParameter)
+  return(VulsData_nmap)
+}
+
+#Extract the total num of vulneravilitis from nikto for all urls
 GetNumberOfVuls <- function(){
   VulsData_numer_vuls <- GetNiktoVulneravilitysDataframe()
   Numer_VulsData <- data.frame(matrix(ncol = 2, nrow = 0))
@@ -55,6 +71,10 @@ GetNumberOfVuls <- function(){
   return(Tidy_Numer_VulsData)
 }
 
+
+#-------------------------------------------------------------------------------------
+
+######## FUNCTIONS FOR NET.SECURITY EXTRACT INFO #######
 Get_XSS_CVEs <- function(){
   XSS_CVES <- cves[grepl("XSS", cves$description),]
   return(XSS_CVES)
@@ -90,4 +110,10 @@ Get_ASPNET_CVEs <- function(){
 Select_fromCPE <- function(find_cpe){
   filter_cpe <- filter(cpes, cpe.23 == find_cpe)
   return(filter_cpe)
+}
+
+CleanCVSS_fromCVEs <- function(){
+  cves <- GetDataFrame("cves")
+  cvesClean <- separate(cves,cvss, c("score","access-vector","access-complexity","authentication","confidentiality-impact","integrity-impact","availability-impact","source","generated-on-datetime"), sep = ",")
+  
 }
