@@ -6,7 +6,7 @@ source("R/load_Dataframes.R")
 source("R/extractInfo.R")
 
 #extract datagrame from net.security pacage
-cves <- GetDataFrame("cves")
+cves <- CleanCVSS_fromCVEs()
 print("[$ shuriken $] Load cves dataframe from nt.security package")
 cpes <- GetDataFrame("cpes")
 print("[$ shuriken $] Load cpes dataframe from nt.security package")

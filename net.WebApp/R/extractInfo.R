@@ -114,6 +114,44 @@ Select_fromCPE <- function(find_cpe){
 
 CleanCVSS_fromCVEs <- function(){
   cves <- GetDataFrame("cves")
-  cvesClean <- separate(cves,cvss, c("score","access-vector","access-complexity","authentication","confidentiality-impact","integrity-impact","availability-impact","source","generated-on-datetime"), sep = ",")
-  
+  cvesClean <- separate(cves,cvss, c("cvss.score","cvss.access-vector","cvss.access-complexity","cvss.authentication","cvss.confidentiality-impact","cvss.integrity-impact","cvss.availability-impact","cvss.source","cvss.generated-on-datetime"), sep = ",")
+  cvesClean <- separate(cvesClean,cvss.score,c("1","2","3","4","5","cvss.score"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean$`4` <- NULL
+  cvesClean$`5` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.access-vector`,c("1","2","3","cvss.access-vector"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.access-complexity`,c("1","2","3","cvss.access-complexity"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.authentication`,c("1","2","3","cvss.authentication"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.confidentiality-impact`,c("1","2","3","cvss.confidentiality-impact"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.integrity-impact`,c("1","2","3","cvss.integrity-impact"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.availability-impact`,c("1","2","3","cvss.availability-impact"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.source`,c("1","2","3","cvss.source"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.generated-on-datetime`,c("1","2","3","cvss.generated-on-datetime"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  return(cvesClean)
 }
