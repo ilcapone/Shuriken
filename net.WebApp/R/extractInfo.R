@@ -1,11 +1,27 @@
-# extract only de info from concret url
-GetVulneravility_fromUrlDataframe <- function (parameter){
+#-------------------------------------------------------------------------------------
+
+######## FUNCTIONS FOR CRAWLER EXTRACT INFO #######
+
+# extract only de infoVuls nikcto from concret url
+GetVulneravilityNikto_fromUrlDataframe <- function (parameter){
   parameter <- as.character(parameter)
   VulsData_numer_vuls <- GetNiktoVulneravilitysDataframe()
   VulsData_numer_vuls <- filter(VulsData_numer_vuls, url == parameter)
   return(VulsData_numer_vuls)
 }
 
+# extract only infoVuls Nmap from url
+GetVulsNMAP_fromUrlDataframe <- function(urlParameter){
+  #first search IP from url
+  search_IP <- GetVulneravilityNikto_fromUrlDataframe(urlParameter)
+  ip <- search_IP$ip[1]
+  IPParameter <- as.character(ip)
+  VulsData_nmap <- GetNmapScanIpDataframe()
+  VulsData_nmap <- filter(VulsData_nmap, host == IPParameter)
+  return(VulsData_nmap)
+}
+
+#Extract the total num of vulneravilitis from nikto for all urls
 GetNumberOfVuls <- function(){
   VulsData_numer_vuls <- GetNiktoVulneravilitysDataframe()
   Numer_VulsData <- data.frame(matrix(ncol = 2, nrow = 0))
@@ -55,6 +71,10 @@ GetNumberOfVuls <- function(){
   return(Tidy_Numer_VulsData)
 }
 
+
+#-------------------------------------------------------------------------------------
+
+######## FUNCTIONS FOR NET.SECURITY EXTRACT INFO #######
 Get_XSS_CVEs <- function(){
   XSS_CVES <- cves[grepl("XSS", cves$description),]
   return(XSS_CVES)
@@ -90,4 +110,48 @@ Get_ASPNET_CVEs <- function(){
 Select_fromCPE <- function(find_cpe){
   filter_cpe <- filter(cpes, cpe.23 == find_cpe)
   return(filter_cpe)
+}
+
+CleanCVSS_fromCVEs <- function(){
+  cves <- GetDataFrame("cves")
+  cvesClean <- separate(cves,cvss, c("cvss.score","cvss.access-vector","cvss.access-complexity","cvss.authentication","cvss.confidentiality-impact","cvss.integrity-impact","cvss.availability-impact","cvss.source","cvss.generated-on-datetime"), sep = ",")
+  cvesClean <- separate(cvesClean,cvss.score,c("1","2","3","4","5","cvss.score"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean$`4` <- NULL
+  cvesClean$`5` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.access-vector`,c("1","2","3","cvss.access-vector"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.access-complexity`,c("1","2","3","cvss.access-complexity"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.authentication`,c("1","2","3","cvss.authentication"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.confidentiality-impact`,c("1","2","3","cvss.confidentiality-impact"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.integrity-impact`,c("1","2","3","cvss.integrity-impact"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.availability-impact`,c("1","2","3","cvss.availability-impact"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.source`,c("1","2","3","cvss.source"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  cvesClean <- separate(cvesClean,`cvss.generated-on-datetime`,c("1","2","3","cvss.generated-on-datetime"), sep='"')
+  cvesClean$`1` <- NULL
+  cvesClean$`2` <- NULL
+  cvesClean$`3` <- NULL
+  return(cvesClean)
 }
