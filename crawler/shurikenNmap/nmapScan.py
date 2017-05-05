@@ -61,7 +61,14 @@ def basic_scan():
 	nm = nmap.PortScanner()
 	ip = raw_input('[$ nmap $] Insert Host > ')
 	portRank = raw_input('[$ nmap $] Insert Port rank (portinit-finalport) > ')
-	nm.scan(ip, portRank, arguments = '--proxy http://52.39.8.161:3128')
+	px = raw_input('[$ nmap $] You want to use proxy? (y/n) > ')
+	if px == 'y':
+		ip_port = raw_input('[$ nmap $] Insert IP:PORT > ')
+		proxy = '--proxy http://'+ str(ip_port)
+		print "[$ nmap $] Start nmap with proxy " + ip_port
+		nm.scan(ip, portRank, arguments = proxy)
+	else:
+		nm.scan(ip, portRank)
 	print nm.csv()
 	for h in nm.all_hosts():
 		if 'mac' in nm[h]['addresses']:
@@ -88,8 +95,18 @@ def evade_ids():
 	nm = nmap.PortScanner()
 	ip = raw_input('[$ nmap $] Insert Host > ')
 	portRank = raw_input('[$ nmap $] Insert Port rank (portinit-finalport) > ')
-	print "[$ nmap $] --spoof-mac Cisco -T4 --source-port 53 -sS --send-ip -n --data-length 30 --randomize-hosts -n -f -f -sV --version-all -O"
-	nm.scan(ip, arguments='--spoof-mac Cisco -T4 --source-port 53 -sS --send-ip -n --data-length 30 --randomize-hosts -n -f -f -sV --version-all -O --proxy http://52.39.8.161:3128')
+	args = '--spoof-mac Cisco -T4 --source-port 53 -sS --send-ip -n --data-length 30 --randomize-hosts -n -f -f -sV --version-all -O'
+	px = raw_input('[$ nmap $] You want to use proxy? (y/n) > ')
+	if px == 'y':
+		ip_port = raw_input('[$ nmap $] Insert IP:PORT > ')
+		proxy = '--proxy http://'+ str(ip_port)
+		print "[$ nmap $] Start nmap with proxy " + ip_port
+		print "[$ nmap $] arguments : " + args
+		args = args + " " + proxy
+		nm.scan(ip, portRank, arguments = args)
+	else:
+		print "[$ nmap $] arguments : " + args
+		nm.scan(ip, portRank, arguments = args)
 	print nm.csv()
 	for host in nm.all_hosts():
 		if 'mac' in nm[host]['addresses']:

@@ -39,8 +39,18 @@ def evade_ids_crwler(current_ip):
 	nm = nmap.PortScanner()
 	ip = current_ip
 	portRank = '0-65535'
-	print "[$ nmap $] --spoof-mac Cisco -T4 --source-port 53 -sS --send-ip -n --data-length 30 --randomize-hosts -n -f -f -sV --version-all -O -Pn"
-	nm.scan(ip, arguments='--spoof-mac Cisco -T4 --source-port 53 -sS --send-ip -n --data-length 30 --randomize-hosts -n -f -f -sV --version-all -O -Pn --proxy http://52.39.8.161:3128')
+	args = '--spoof-mac Cisco -T4 --source-port 53 -sS --send-ip -n --data-length 30 --randomize-hosts -n -f -f -sV --version-all -O'
+	px = raw_input('[$ nmap $] You want to use proxy? (y/n) > ')
+	if px == 'y':
+		ip_port = raw_input('[$ nmap $] Insert IP:PORT > ')
+		proxy = '--proxy http://'+ str(ip_port)
+		print "[$ nmap $] Start nmap with proxy " + ip_port
+		print "[$ nmap $] arguments : " + args
+		args = args + " " + proxy
+		nm.scan(ip, portRank, arguments = args)
+	else:
+		print "[$ nmap $] arguments : " + args
+		nm.scan(ip, portRank, arguments = args)
 	print nm.csv()
 	csvwriter.write(nm.csv())
 	print "[$ nmap $] End scan"
