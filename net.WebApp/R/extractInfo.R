@@ -97,7 +97,7 @@ Get_MicrosoftVersion_CVEs <- function(version){
 }
 
 Get_ApachetVersion_CVEs <- function(version){
-  Apache <- cves[grepl("Microsoft", cves$description),]
+  Apache <- cves[grepl("Apache", cves$description),]
   Microsoft_Version <- Microsoft[grepl(version, Apache$cpe.software),]
   return(Microsoft_Version)
 }
@@ -107,9 +107,24 @@ Get_ASPNET_CVEs <- function(){
   return(XASPNET)
 }
 
-Select_fromCPE <- function(find_cpe){
-  filter_cpe <- filter(cpes, cpe.23 == find_cpe)
-  return(filter_cpe)
+Get_SQL_CVEs <- function(){
+  sql <- cves[grepl("SQL", cves$description),]
+  return(sql)
+}
+
+Get_Auth_CVEs <- function(){
+  auth <- cves[grepl("Authentication", cves$description),]
+  return(auth)
+}
+
+Get_CSRF_CVEs <- function(){
+  csrf <- cves[grepl("CSRF", cves$description),]
+  return(csrf)
+}
+
+Get_BufferOverFlow_CVEs <- function(){
+  buffer <- cves[grepl("Buffer", cves$description),]
+  return(buffer)
 }
 
 CleanCVSS_fromCVEs <- function(){
@@ -154,4 +169,10 @@ CleanCVSS_fromCVEs <- function(){
   cvesClean$`2` <- NULL
   cvesClean$`3` <- NULL
   return(cvesClean)
+}
+
+#TOFO finish
+Select_fromCPE <- function(find_cpe){
+  filter_cpe <- filter(cpes, cpe.23 == find_cpe)
+  return(filter_cpe)
 }
