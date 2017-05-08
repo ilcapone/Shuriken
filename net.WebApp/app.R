@@ -13,7 +13,7 @@ ui <- dashboardPage(
       menuItem("Resum", tabName = "resum", icon = icon("thermometer-half")),
       menuItem("Nikto", tabName = "webvul", icon = icon("free-code-camp")),
       menuItem("Nmap", tabName = "webnmap", icon = icon("eye")),
-      menuItem("SearchVuls", tabName = "search", icon = icon("bolt"))
+      menuItem("SearchCVES", tabName = "searchVuls", icon = icon("bolt"))
     )
     
   ),
@@ -38,13 +38,8 @@ ui <- dashboardPage(
                   )
                 )
               ),
-              fluidRow(
-                column(width = 12,
-                    box (
-                      dataTableOutput("webvul")
-                    )
-                )
-              )
+              dataTableOutput("webvul")
+            
             
       ),
       
@@ -59,21 +54,23 @@ ui <- dashboardPage(
                        )
                 )
               ),
-              fluidRow(
-                column(width = 12,
-                       box (
-                         dataTableOutput("nmapvul")
-                       )
-                )
-              )
+              dataTableOutput("nmapvul")
               
       ),
       
       # Second tab content
-      tabItem(tabName = "search",
-              box(
-                title="Insert CVE"
-              )
+      tabItem(tabName = "searchVuls",
+              fluidRow(
+                column(width = 12,
+                       box(
+                         selectInput("selectTipe", label = h3("Search CVEs by type: "), 
+                                     choices = list("XSS" = 1, "SQL" = 2, "Authentication" = 3, "CSRF" = 4, "BufferOverFlow" = 5, "None"=6), 
+                                     selected = 6)
+                       )
+                )
+              ),
+              dataTableOutput("cvesSearch")
+              
       )
     )
   )
@@ -105,6 +102,40 @@ server <- function(input, output, session) {
    df2$url=factor(df2$url,levels=df2$url)
    g <- ggplot(df2,aes(x=factor(url),y=Vulneravilitys)) + geom_bar(stat='identity') + coord_flip() + labs(y='Vulnerailitys',x='url')
    g + ggtitle("Number of vulnerabilities per scanned url") 
+  })
+  
+  #Search CVEs
+  #output$value <- renderPrint({ input$select })
+  observeEvent(input$selectTipe, {
+    if (input$selectTipe == 1)
+    {
+      CVEs_Dataframe <- Get_XSS_CVEs(1)
+    }
+    else if (input$selectTipe == 2)
+    {
+      CVEs_Dataframe <- Get_SQL_CVEs(1)
+    }
+    else if (input$selectTipe == 3)
+    {
+      CVEs_Dataframe <- Get_Auth_CVEs(1)
+    }
+    else if (input$selectTipe == 4)
+    {
+      CVEs_Dataframe <- Get_CSRF_CVEs(1)
+    }
+    else if (input$selectTipe == 5)
+    {
+      CVEs_Dataframe <- Get_BufferOverFlow_CVEs(1)
+    }
+    else
+    {
+      CVEs_Dataframe <- NULL
+    }
+    
+    output$cvesSearch = renderDataTable(
+      CVEs_Dataframe,
+      options = list(scrollX = TRUE)
+    )
   })
   
 }
