@@ -75,11 +75,6 @@ GetNumberOfVuls <- function(){
 #-------------------------------------------------------------------------------------
 
 ######## FUNCTIONS FOR NET.SECURITY EXTRACT INFO #######
-Get_XSS_CVEs <- function(){
-  XSS_CVES <- cves[grepl("XSS", cves$description),]
-  return(XSS_CVES)
-}
-
 Get_Headers_CVEs <- function(){
   XHeader <- cves[grepl("header", cves$description),]
   return(XHeader)
@@ -97,7 +92,7 @@ Get_MicrosoftVersion_CVEs <- function(version){
 }
 
 Get_ApachetVersion_CVEs <- function(version){
-  Apache <- cves[grepl("Microsoft", cves$description),]
+  Apache <- cves[grepl("Apache", cves$description),]
   Microsoft_Version <- Microsoft[grepl(version, Apache$cpe.software),]
   return(Microsoft_Version)
 }
@@ -107,9 +102,65 @@ Get_ASPNET_CVEs <- function(){
   return(XASPNET)
 }
 
-Select_fromCPE <- function(find_cpe){
-  filter_cpe <- filter(cpes, cpe.23 == find_cpe)
-  return(filter_cpe)
+Get_XSS_CVEs <- function(id){
+  if (id==0)
+  {
+    XSS_CVES <- cves[grepl("XSS", cves$description),]
+  }
+  else if (id==1)
+  {
+    XSS_CVES <- cves_Shiny[grepl("XSS", cves_Shiny$description),]
+  }
+  return(XSS_CVES)
+}
+
+Get_SQL_CVEs <- function(id){
+  if(id==0)
+  {
+    sql <- cves[grepl("SQL", cves$description),]
+  }
+  else if(id==1)
+  {
+    sql <- cves_Shiny[grepl("SQL", cves_Shiny$description),]
+  }
+ 
+  return(sql)
+}
+
+Get_Auth_CVEs <- function(id){
+  if (id==0)
+  {
+    auth <- cves[grepl("Authentication", cves$description),]
+  }
+  else if (id==1)
+  {
+    auth <- cves_Shiny[grepl("Authentication", cves_Shiny$description),]
+  }
+  return(auth)
+}
+
+Get_CSRF_CVEs <- function(id){
+  if (id==0)
+  {
+    csrf <- cves[grepl("CSRF", cves$description),]
+  }
+  else if (id==1)
+  {
+    csrf <- cves_Shiny[grepl("CSRF", cves_Shiny$description),]
+  }
+  return(csrf)
+}
+
+Get_BufferOverFlow_CVEs <- function(id){
+  if (id==0)
+  {
+    buffer <- cves[grepl("Buffer", cves$description),]
+  }
+  else if (id==1)
+  {
+    buffer <- cves_Shiny[grepl("Buffer", cves_Shiny$description),]
+  }
+  return(buffer)
 }
 
 CleanCVSS_fromCVEs <- function(){
@@ -154,4 +205,26 @@ CleanCVSS_fromCVEs <- function(){
   cvesClean$`2` <- NULL
   cvesClean$`3` <- NULL
   return(cvesClean)
+}
+
+CleanCVES_Shiny <- function(){
+  cvesShiny <- CleanCVSS_fromCVEs()
+  cvesShiny$attack.scenario <- NULL
+  cvesShiny$technical.description <- NULL
+  cvesShiny$fix.action <- NULL
+  cvesShiny$security.protection <- NULL
+  cvesShiny$disclosure.datetime <- NULL
+  cvesShiny$discovered.datetime <- NULL
+  cvesShiny$cpe.software <-NULL
+  cvesShiny$cpe.config <- NULL
+  cvesShiny$scanner <- NULL
+  cvesShiny$comments <- NULL
+  cvesShiny$exploit.publish.datetime <- NULL
+  return(cvesShiny)
+}
+
+#TOFO finish
+Select_fromCPE <- function(find_cpe){
+  filter_cpe <- filter(cpes, cpe.23 == find_cpe)
+  return(filter_cpe)
 }
