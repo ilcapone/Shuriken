@@ -81,9 +81,9 @@ def launch_nikto(url, proxy):
 		switches = url
 		if proxy is not None:
 			print "[$ nikto $] Starting nikto ... adicional param: " + str(proxy)
-			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output data/nikto_basic_scan.csv"
+			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output data/nikto_crawler_links.csv"
 			subprocess.call(nikto,shell = True)
 		else:
 			print "[$ nikto $] Starting nikto ..."
-			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_basic_scan.csv"
+			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_crawler_links.csv"
 			subprocess.call(nikto,shell = True)

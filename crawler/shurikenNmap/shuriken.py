@@ -14,10 +14,11 @@ def back():
 options = {'0':nmapScan.nmapMenu,'1':scapyScan.scapyMenu, '2':nmapCrawler.crawler_nmap, '3':back}
 
 def main():
-	print "                       - portScan Oprions -"
+	print "                       - portScan Options -"
 	print "               0 : Nmap scan"
 	print "               1 : Scapy scan"
 	print "               2 : Crawler nmap scan"
 	print "               3 : Back"
+	print "\n"
 	n = raw_input('[$ portScann $] > ')
 	options[n]()
