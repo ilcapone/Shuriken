@@ -3,16 +3,18 @@ library(shiny)
 library(shinydashboard)
 library(ggplot2)
 library(net.security)
+library(rworldmap)
 
 ui <- dashboardPage(
   skin = "red",
-  dashboardHeader(title = "Shuriken dashboard"),
+  dashboardHeader(title = "Net.WebApp"),
   dashboardSidebar(
     
     sidebarMenu(
       menuItem("Resum", tabName = "resum", icon = icon("thermometer-half")),
       menuItem("Nikto", tabName = "webvul", icon = icon("free-code-camp")),
       menuItem("Nmap", tabName = "webnmap", icon = icon("eye")),
+      menuItem("GeoIP", tabName = "geoip", icon = icon("bar-chart")),
       menuItem("SearchCVES", tabName = "searchVuls", icon = icon("bolt"))
     )
     
@@ -55,6 +57,15 @@ ui <- dashboardPage(
                 )
               ),
               dataTableOutput("nmapvul")
+              
+      ),
+      
+      # Second tab content
+      tabItem(tabName = "geoip",
+              fluidRow(
+                box(plotOutput("geo_IPmap", height = 1000),
+                    width = 12)
+              )  
               
       ),
       
@@ -103,6 +114,14 @@ server <- function(input, output, session) {
    g <- ggplot(df2,aes(x=factor(url),y=Vulneravilitys)) + geom_bar(stat='identity') + coord_flip() + labs(y='Vulnerailitys',x='url')
    g + ggtitle("Number of vulnerabilities per scanned url") 
   })
+  
+  #GeoIP Map
+  output$geo_IPmap <- renderPlot({
+    n <- joinCountryData2Map(geoIP, joinCode="NAME", nameJoinColumn="country_name")
+    newmap <- mapCountryData(mapTitle="World")
+    newmap
+    points(geoIP$longitude, geoIP$latitude, col = "red", cex = .6)
+    })
   
   #Search CVEs
   #output$value <- renderPrint({ input$select })

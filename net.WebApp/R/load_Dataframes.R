@@ -41,6 +41,22 @@ GetNmapScanIpDataframe <- function(){
     "port","name","state","product","extrainfo","reason","version","conf","cpe")
   colnames(VulsData) <- x
   VulsData %>% mutate_if(is.factor, as.character) -> VulsData
-  VulsData <- filter(VulsData, host != "host")
+ 
   return(VulsData)
+}
+
+GetGeoIPDataframe <- function (){
+  geoIPScan <- read.csv("data/geoIP_crawlerIP.csv", header=F, sep=",")
+  GeoData <- data.frame(matrix(ncol = 14, nrow = 0))
+  i=0
+  while(i <= nrow(geoIPScan)) {
+    GeoData = rbind(GeoData,geoIPScan[i,])
+    i= i +1
+  }
+  x <- c("city","region_name","ip","region","area_code","time_zone","longitude","metro_code",
+         "country_code3","latitude","postal_code","dma_code","country_code","country_name")
+  colnames(GeoData) <- x
+  GeoData %>% mutate_if(is.factor, as.character) -> GeoData
+  GeoData <- filter(GeoData, city != "city")
+  return(GeoData)
 }
