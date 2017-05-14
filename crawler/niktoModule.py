@@ -19,9 +19,9 @@ def basic_nikto():
 		print "[$ nikto $] Error in query!"
 		exit()
 	switches = webscan
-	px = raw_input('[$ nikto $] If you want to use proxy? (y/n) > ')
+	px = raw_input('[$ nikto $] You want to use proxy? (y/n) > ')
 	if px == 'y':
-		ip_port = raw_input('[$ nikto $] If you want to use proxy insert IP:PORT > ')
+		ip_port = raw_input('[$ nikto $] Insert proxy IP:PORT > ')
 		proxy = '-useproxy http://'+ str(ip_port) +'/'
 		print "[$ nikto $] Starting nikto ... adicional param: " + str(proxy)
 		nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output data/nikto_basic_scan.csv"
@@ -37,9 +37,9 @@ def basic_nikto():
 def crawler_nikto():
 	print "[$ nikto $] Start nikto from crawler!"
 	print "[$ nikto $] Open data/crawler_links.csv"
-	px = raw_input('[$ nikto $] If you want to use proxy? (y/n) > ')
+	px = raw_input('[$ nikto $] You want to use proxy? (y/n) > ')
 	if px == 'y':
-		ip_port = raw_input('[$ nikto $] If you want to use proxy insert IP:PORT > ')
+		ip_port = raw_input('[$ nikto $] Insert proxy IP:PORT > ')
 		proxy = '-useproxy http://'+ str(ip_port) +'/'
 	else:
 		proxy = None
@@ -81,9 +81,9 @@ def launch_nikto(url, proxy):
 		switches = url
 		if proxy is not None:
 			print "[$ nikto $] Starting nikto ... adicional param: " + str(proxy)
-			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output data/nikto_basic_scan.csv"
+			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output data/nikto_crawler_links.csv"
 			subprocess.call(nikto,shell = True)
 		else:
 			print "[$ nikto $] Starting nikto ..."
-			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_basic_scan.csv"
+			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_crawler_links.csv"
 			subprocess.call(nikto,shell = True)

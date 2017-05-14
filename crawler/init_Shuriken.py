@@ -9,6 +9,7 @@ import os
 import niktoModule
 from shurikenCrawler import crawlerModule
 from shurikenNmap import shuriken
+from shurikenGeoIP import localice
 
 def info():
 	print "\n"
@@ -34,6 +35,10 @@ def portScann_start():
 	print "[$ portScann $] Start portScann"
 	shuriken.main()
 
+def geolocalizeIP_start():
+	print "[$ geo-ip $] Start geoIP"
+	localice.main()
+
 def wig_strat():
 	f = open("Vuls_wig.txt", "w")
 	print "[$ wig $] Start wig"
@@ -43,21 +48,22 @@ def wig_strat():
 	print "[$ wig $] Output file Vuls_wig.txt"
 
 
-options = {'0':exit, '1':info, '2':crawle_start, '3':nikto_start_crawler, '4':nikto_start_basic, '5':portScann_start, '6':wig_strat}
+options = {'0':exit, '1':info, '2':crawle_start, '3':nikto_start_crawler, '4':nikto_start_basic, '5':portScann_start, '6':wig_strat, '7':geolocalizeIP_start}
 
 def main():
 	
 	while True:
 		print "\n"
-		print "                     << <$$> Shuriken <$$> >> "
-		print "                              "
-		print "                            0 : Exit"
-		print "                            1 : Info"
-		print "                            2 : Crawler"
-		print "                            3 : Nikto crawler scan"
-		print "                            4 : Nikto single scan"
-		print "                            5 : Port Scann"
-		print "                            6 : Wig"
+		print "                        << <$$> Shuriken <$$> >> "
+		print "                                 "
+		print "                               0 : Exit"
+		print "                               1 : Info"
+		print "                               2 : Crawler"
+		print "                               3 : Nikto crawler scan"
+		print "                               4 : Nikto single scan"
+		print "                               5 : Port Scann"
+		print "                               6 : Wig"
+		print "                               7 : GeoIP"
 
 		print "\n"
 		try:
