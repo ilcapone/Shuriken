@@ -87,7 +87,9 @@ ui <- dashboardPage(
   )
 )
 
-server <- function(input, output, session) { 
+server <- function(input, output, session) {
+
+  source("R/config_enviroment.R")
   
   t_wVuls <- GetNumberOfVuls()
   

@@ -11,7 +11,7 @@ ip_list=['init']
 geo_ip_list = []
 
 def back():
-	print "[$ portScann $] Back main menu \n"
+	print "[$ geo-ip $] Back main menu \n"
 
 def specific_IP():
 	print "[$ geo-ip $] Specific geo IP"
