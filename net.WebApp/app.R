@@ -73,8 +73,11 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output, session) {
-
-  source("../net.WebApp/R/config_enviroment.R")
+  
+  netSecurity_path<- getwd()
+  path_config_path <-  paste(netSecurity_path, "/R/path_config.R", sep = "")
+  source(path_config_path)
+  source(confing_enviromet_path)
   
   t_wVuls <- GetNumberOfVuls()
   

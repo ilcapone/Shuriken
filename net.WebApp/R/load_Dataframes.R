@@ -2,7 +2,7 @@
 #extract dataframe from crawler_links.cvs
 #example scrapyData <- GetScrapyLinksDataframe() 
 GetScrapyLinksDataframe <- function() {
-  links <- read.csv("../net.WebApp/data/crawler_links.csv", header=T, sep=",")
+  links <- read.csv(crawler_links_path, header=T, sep=",")
   split1=str_split_fixed(links$time, " ", 2)
   time1 <- gsub( ':', '', split1[,2])
   scrapyData <-data.frame("url"=links$url, "urlComes"=links$urlComes,"time"=time1)
@@ -13,7 +13,7 @@ GetScrapyLinksDataframe <- function() {
 #extract dataframe from links.cvs
 #example vuls <- GetNiktoVulneravilitysDataframe() 
 GetNiktoVulneravilitysDataframe <- function(){
-  niktoVuls <- read.csv("../net.WebApp/data/nikto_crawler_links.csv", header=F, sep=",")
+  niktoVuls <- read.csv(nikto_crawler_links_path, header=F, sep=",")
   VulsData <- data.frame(matrix(ncol = 6, nrow = 0))
   i=0
   while(i <= nrow(niktoVuls)) {
@@ -30,7 +30,7 @@ GetNiktoVulneravilitysDataframe <- function(){
 #extract dataframe from links.cvs
 #example scan <- GetNmapScanIpDataframe() 
 GetNmapScanIpDataframe <- function(){
-  nmapScan <- read.csv("../net.WebApp/data/nmap_crawler.csv", header=F, sep=";")
+  nmapScan <- read.csv(nmap_crawler_path, header=F, sep=";")
   VulsData <- data.frame(matrix(ncol = 12, nrow = 0))
   i=0
   while(i <= nrow(nmapScan)) {
@@ -46,7 +46,7 @@ GetNmapScanIpDataframe <- function(){
 }
 
 GetGeoIPDataframe <- function (){
-  geoIPScan <- read.csv("../net.WebApp/data/geoIP_crawlerIP.csv", header=F, sep=",")
+  geoIPScan <- read.csv(geoIP_crawlerIP_path, header=F, sep=",")
   GeoData <- data.frame(matrix(ncol = 14, nrow = 0))
   i=0
   while(i <= nrow(geoIPScan)) {
