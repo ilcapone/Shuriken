@@ -7,13 +7,12 @@ library(rworldmap)
 
 ui <- dashboardPage(
   skin = "red",
-  dashboardHeader(title = "Net.WebApp"),
+  dashboardHeader(title = "Net.Security"),
   dashboardSidebar(
     
     sidebarMenu(
       menuItem("Resum", tabName = "resum", icon = icon("thermometer-half")),
-      menuItem("Nikto", tabName = "webvul", icon = icon("free-code-camp")),
-      menuItem("Nmap", tabName = "webnmap", icon = icon("eye")),
+      menuItem("Scann info", tabName = "scan", icon = icon("free-code-camp")),
       menuItem("GeoIP", tabName = "geoip", icon = icon("bar-chart")),
       menuItem("SearchCVES", tabName = "searchVuls", icon = icon("bolt"))
     )
@@ -30,34 +29,20 @@ ui <- dashboardPage(
       ),
       
       # Second tab content
-      tabItem(tabName = "webvul",
+      tabItem(tabName = "scan",
+
               fluidRow(
-                column(width = 12,
-                  box(
-                    title="Look for the vulnerabilities of a particular web extract from nikto",
-                    textInput("urlVul", "Insert Url:"),
-                    actionButton("webbutton", "Search")
-                  )
-                )
-              ),
-              dataTableOutput("webvul")
-            
-            
-      ),
-      
-      # Second tab content
-      tabItem(tabName = "webnmap",
-              fluidRow(
-                column(width = 12,
                        box(
-                         title="Look for the vulnerabilities of a particular web extract from nmap",
-                         textInput("urlVulnmap", "Insert Url:"),
-                         actionButton("nmapbutton", "Search")
+                         selectInput("selectUrlNikto", label = h3("Nikto"), "")
+                       ),
+                       box(
+                         selectInput("selectUrlNmap", label = h3("Nmap"), "")
                        )
-                )
+                
               ),
-              dataTableOutput("nmapvul")
-              
+              dataTableOutput("vulneravilitis")
+            
+            
       ),
       
       # Second tab content
@@ -89,25 +74,40 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
 
-  source("R/config_enviroment.R")
+  source("../net.WebApp/R/config_enviroment.R")
   
   t_wVuls <- GetNumberOfVuls()
   
   #Web vulneraviliti Nikto
-  observeEvent(input$webbutton, {
-    webvulsDataframe <- GetVulneravilityNikto_fromUrlDataframe(input$urlVul)
-    output$webvul = renderDataTable({
+  observe({
+      updateSelectInput(session, "selectUrlNikto",
+      choices = t_wVuls$url
+    )})
+
+  #Web vulneraviliti Nikto
+  observeEvent(input$selectUrlNikto, {
+
+    webvulsDataframe <- GetVulneravilityNikto_fromUrlDataframe(input$selectUrlNikto)
+
+    output$vulneravilitis = renderDataTable({
       webvulsDataframe
     })
   })
+
+  #Web vulneravility from nmap
+  observe({
+      updateSelectInput(session, "selectUrlNmap",
+      choices = t_wVuls$url
+    )})
   
   #Web vulneravility from nmap
-  observeEvent(input$nmapbutton, {
-    nmapvulsDataframe <- GetVulsNMAP_fromUrlDataframe(input$urlVulnmap)
-    output$nmapvul = renderDataTable({
+  observeEvent(input$selectUrlNmap, {
+    nmapvulsDataframe <- GetVulsNMAP_fromUrlDataframe(input$selectUrlNmap)
+    output$vulneravilitis = renderDataTable({
       nmapvulsDataframe
     })
   })
+
   
   #Number of vuls per web
   output$numverofvuls <- renderPlot({

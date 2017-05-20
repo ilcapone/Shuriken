@@ -17,8 +17,7 @@ from datetime import datetime
 class Knef(CrawlSpider):
     name = 'knef'
     allowed_domains = []
-
-    #custom_settings = {"DOWNLOADER_MIDDLEWARES": {'shurikenCrawler.middlewares.ProxyMiddleware': 100,}}
+    DEPTH_LIMIT = 3
 
     def __init__(self, startUrl=None, *args, **kwargs):
         super(Knef, self).__init__(*args, **kwargs)
@@ -29,11 +28,37 @@ class Knef(CrawlSpider):
         self.start_urls = [startUrl]
         self.i=0
         
-    rules = (Rule(LinkExtractor(allow=(), deny_domains=('movistar.es','linkedin.com','apple.com','instagram.com','tuenti.com','facebook.com', 'youtube.com', 'twitter.com', 'microsoft.com', 'wikipedia.org', 'smugmug.com', 'google.com', 'mozilla.org')), callback='parse_item', follow=True),)
+    rules = (Rule(LinkExtractor(allow=(), deny_domains=(
+        'google.es',
+        'movistar.es',
+        'linkedin.com',
+        'apple.com',
+        'instagram.com',
+        'tuenti.com',
+        'facebook.com',
+        'youtube.com',
+        'twitter.com',
+        'microsoft.com',
+        'wikipedia.org',
+        'smugmug.com',
+        'google.com',
+        'mozilla.org')), callback='parse_item', follow=True),)
 
     def parse_item(self, response):
 
-        for link in LinkExtractor(allow=(),deny = self.allowed_domains, deny_domains=('movistar.es','linkedin.com','apple.com','instagram.com','tuenti.com','facebook.com', 'youtube.com', 'twitter.com', 'microsoft.com', 'wikipedia.org', 'smugmug.com', 'google.com', 'mozilla.org')).extract_links(response):
+        for link in LinkExtractor(allow=(),deny = self.allowed_domains, deny_domains=(
+            'google.es',
+            'movistar.es',
+            'linkedin.com',
+            'apple.com',
+            'instagram.com',
+            'tuenti.com',
+            'facebook.com',
+            'youtube.com', 'twitter.com',
+            'microsoft.com','wikipedia.org',
+            'smugmug.com',
+            'google.com',
+            'mozilla.org')).extract_links(response):
             item = UrlKnef()
             item['Id'] =  self.i
             self.i = self.i + 1

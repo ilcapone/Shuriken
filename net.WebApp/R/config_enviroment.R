@@ -3,8 +3,8 @@ library(dplyr)
 library(tidyr)
 library(rworldmap)
 library(net.security)
-source("R/load_Dataframes.R")
-source("R/extractInfo.R")
+source("../net.WebApp/R/load_Dataframes.R")
+source("../net.WebApp/R/extractInfo.R")
 
 #extract datagrame from net.security pacage
 cves <- CleanCVSS_fromCVEs()
