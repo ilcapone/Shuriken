@@ -5,6 +5,7 @@
 
 import csv
 import scrapy
+import os
 from scrapy.crawler import CrawlerProcess
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
@@ -23,7 +24,8 @@ class Knef(CrawlSpider):
         super(Knef, self).__init__(*args, **kwargs)
         print "[$ crawler $] Start URL : " + startUrl
         fieldnames = ['Id','url', 'urlComes', 'time']
-        self.csvwriter = csv.DictWriter(open('data/crawler_links.csv', 'wb'), fieldnames=fieldnames)
+        data = os.getcwd() + "/crawler/data"
+        self.csvwriter = csv.DictWriter(open(data + '/crawler_links.csv', 'wb'), fieldnames=fieldnames)
         self.csvwriter.writeheader()
         self.start_urls = [startUrl]
         self.i=0

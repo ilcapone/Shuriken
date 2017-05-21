@@ -9,6 +9,11 @@ import os
 
 ip_list=['init']
 geo_ip_list = []
+shuriken_path = os.getcwd()
+dictionary = shuriken_path + "/crawler/shurikenGeoIP/GeoLiteCity.dat"
+data = shuriken_path + "/crawler/data/geoIP_specificIP.csv"
+data_crawler = shuriken_path + "/crawler/data/geoIP_crawlerIP.csv"
+nikto_data = shuriken_path + "/crawler/data/nikto_crawler_links.csv"
 
 def back():
 	print "[$ geo-ip $] Back main menu \n"
@@ -16,9 +21,9 @@ def back():
 def specific_IP():
 	print "[$ geo-ip $] Specific geo IP"
 	ip = raw_input('[$ geo-ip $] Insert ip > ')
-	gi = GeoIP.open("shurikenGeoIP/GeoLiteCity.dat", GeoIP.GEOIP_INDEX_CACHE | GeoIP.GEOIP_CHECK_CACHE)
+	gi = GeoIP.open(dictionary, GeoIP.GEOIP_INDEX_CACHE | GeoIP.GEOIP_CHECK_CACHE)
 	geoInfo = gi.record_by_name(ip)
-	with open('data/geoIP_specificIP.csv', 'wb') as f:
+	with open(data, 'wb') as f:
 		w = csv.DictWriter(f, geoInfo.keys())
 		w.writeheader()
 		w.writerow(geoInfo)
@@ -26,7 +31,7 @@ def specific_IP():
 def crawler_IP():
 	print "[$ geo-ip $] Crawler"
 	print "[$ geo-ip $] Open data/nikto_crawler_links.csv"
-	fName= 'data/nikto_crawler_links.csv'
+	fName= nikto_data
 	firstWrite = True
 	if os.path.exists(fName):
 		with open(fName, 'rU') as f:
@@ -62,7 +67,7 @@ def check_current_url(curr_ip):
 		launch_geoIP_crawler(curr_ip)
 
 def launch_geoIP_crawler(ip):
-	gi = GeoIP.open("shurikenGeoIP/GeoLiteCity.dat", GeoIP.GEOIP_INDEX_CACHE | GeoIP.GEOIP_CHECK_CACHE)
+	gi = GeoIP.open(dictionary, GeoIP.GEOIP_INDEX_CACHE | GeoIP.GEOIP_CHECK_CACHE)
 	geoInfo = gi.record_by_name(ip)
 	geoInfo['ip'] = ip
 	geo_ip_list.insert(len(geo_ip_list),geoInfo)
@@ -70,7 +75,7 @@ def launch_geoIP_crawler(ip):
 def write_geoIP_crawler():
 	print geo_ip_list
 	first = True
-	with open('data/geoIP_crawlerIP.csv', 'a') as f:
+	with open(data_crawler, 'a') as f:
 		for gIP in geo_ip_list:
 			if first:
 				w = csv.DictWriter(f, gIP.keys())

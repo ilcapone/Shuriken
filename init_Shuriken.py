@@ -6,11 +6,20 @@
 import subprocess
 import sys
 import os
-import niktoModule
-from shurikenCrawler import crawlerModule
-from shurikenNmap import shuriken
-from shurikenGeoIP import localice
-from shurikenReadData import readData
+from crawler import niktoModule
+from crawler.shurikenCrawler import crawlerModule
+from crawler.shurikenNmap import shuriken
+from crawler.shurikenGeoIP import localice
+from crawler.shurikenReadData import readData
+
+#Project paths
+shuriken_path = os.getcwd()
+
+#Modues paths
+wig_path = shuriken_path + "/crawler/WebVuls/wig/wig/wig.py"
+
+#Files paths
+data = shuriken_path + "/crawler/data"
 
 def info():
 	print "\n"
@@ -41,11 +50,12 @@ def geolocalizeIP_start():
 	localice.main()
 
 def wig_strat():
-	f = open("data/Vuls_wig.txt", "w")
+	f = open(data + "/Vuls_wig.txt", "w")
 	print "[$ wig $] Start wig"
 	n = raw_input('[$ wig $] Set url > ')
 	print "[$ wig $] Wig web vulnerability scan is running ...."
-	exit_wig = subprocess.call("python3 WebVuls/wig/wig/wig.py " + n, shell=True, stdout=f)
+	exit_wig = subprocess.call("python3 " + wig_path + " " + n, shell=True, stdout=f)
+	print "[$ wig $] Finish wig scann"
 	print "[$ wig $] Output file in data/Vuls_wig.txt"
 
 def file_Result():
@@ -54,7 +64,7 @@ def file_Result():
 
 def net_security():
 	print "[$ net.security $]  Runing Shiny web app ...."
-	exit_r = subprocess.call("Rscript ../net.WebApp/app.R &", shell=True)
+	exit_r = subprocess.call("Rscript app.R &", shell=True)
 	print "[$ net.security $] Net.Security WebApp"
 
 options = {'0':exit, '1':info, '2':crawle_start, '3':nikto_start_crawler, '4':nikto_start_basic, '5':portScann_start, '6':wig_strat, '7':geolocalizeIP_start, '8':file_Result, '9':net_security}

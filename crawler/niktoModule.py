@@ -9,6 +9,11 @@ import os
 import csv
 
 url_list=['init']
+shuriken_path = os.getcwd()
+niktoModule_path = shuriken_path + "/crawler/WebVuls/nikto/program/nikto.pl"
+data = shuriken_path + "/crawler/data"
+niktoBasic_OutputData_path = data + "/nikto_basic_scan.csv"
+niktoCrawler_OutputData_path = data + "/nikto_crawler_links.csv"
 
 def __init__():
 	proxy=None
@@ -24,12 +29,12 @@ def basic_nikto():
 		ip_port = raw_input('[$ nikto $] Insert proxy IP:PORT > ')
 		proxy = '-useproxy http://'+ str(ip_port) +'/'
 		print "[$ nikto $] Starting nikto ... adicional param: " + str(proxy)
-		nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output data/nikto_basic_scan.csv"
+		nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output " + niktoBasic_OutputData_path
 		print(nikto)
 		subprocess.call(nikto,shell = True)
 	else:
 		print "[$ nikto $] Starting nikto ..."
-		nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_basic_scan.csv"
+		nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -Display -F csv -output " + niktoBasic_OutputData_path
 		subprocess.call(nikto,shell = True)
 
 	print "[$ nikto $] Output file data/nikto_basic_scan.csv"
@@ -43,7 +48,7 @@ def crawler_nikto():
 		proxy = '-useproxy http://'+ str(ip_port) +'/'
 	else:
 		proxy = None
-	fName= 'data/crawler_links.csv'
+	fName=  data + '/crawler_links.csv'
 	if os.path.exists(fName):
 		with open(fName, 'r') as f:
 			try:
@@ -81,9 +86,9 @@ def launch_nikto(url, proxy):
 		switches = url
 		if proxy is not None:
 			print "[$ nikto $] Starting nikto ... adicional param: " + str(proxy)
-			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output data/nikto_crawler_links.csv"
+			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output " + niktoCrawler_OutputData_path
 			subprocess.call(nikto,shell = True)
 		else:
 			print "[$ nikto $] Starting nikto ..."
-			nikto = "perl WebVuls/nikto/program/nikto.pl -host " + str(switches) + " -Display -F csv -output data/nikto_crawler_links.csv"
+			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -Display -F csv -output " + niktoCrawler_OutputData_path
 			subprocess.call(nikto,shell = True)

@@ -4,13 +4,16 @@ import os
 import csv
 
 ip_list=['init']
-csvwriter = open('data/nmap_crawler.csv', "w")
+shuriken_path = os.getcwd()
+data = shuriken_path + "/crawler/data/nmap_crawler.csv"
+nikto_data = shuriken_path + "/crawler/data/nikto_crawler_links.csv"
+csvwriter = open(data, "w")
+proxy_check = None
 
 def crawler_nmap():
 	print "[$ nmap $] Start crawler nmap module"
 	print "[$ nmap $] Open data/nikto_crawler_links.csv"
-	fName= 'data/nikto_crawler_links.csv'
-	#reader = csv.reader(open(self.file, 'rU'), dialect=csv.excel_tab)
+	fName= nikto_data
 	if os.path.exists(fName):
 		with open(fName, 'rU') as f:
 			try:
@@ -40,8 +43,10 @@ def evade_ids_crwler(current_ip):
 	ip = current_ip
 	portRank = '0-65535'
 	args = '--spoof-mac Cisco -T4 --source-port 53 -sS --send-ip -n --data-length 30 --randomize-hosts -n -f -f -sV --version-all -O'
-	px = raw_input('[$ nmap $] You want to use proxy? (y/n) > ')
-	if px == 'y':
+	if proxy_check is None:
+		px = raw_input('[$ nmap $] You want to use proxy? (y/n) > ')
+		proxy_check = px
+	if proxy_check == 'y':
 		ip_port = raw_input('[$ nmap $] Insert IP:PORT > ')
 		proxy = '--proxy http://'+ str(ip_port)
 		print "[$ nmap $] Start nmap with proxy " + ip_port

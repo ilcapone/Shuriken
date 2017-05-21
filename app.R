@@ -73,7 +73,10 @@ server <- function(input, output, session) {
   
   #Configure enviroment
   netSecurity_path <- getwd()
-  path_config_path <-  paste(netSecurity_path, "/R/path_config.R", sep = "")
+  netWebApp_path <- paste(netSecurity_path, "/net.WebApp", sep = "")
+  iconGeoIP_path <- paste(netWebApp_path, "/serverIcon.png", sep = "")
+  iconGeoIP_porDos_path <- paste(netWebApp_path, "/serverIcon@2x.png", sep = "")
+  path_config_path <- paste(netSecurity_path, "/net.WebApp/R/path_config.R", sep = "")
   source(path_config_path)
   source(confing_enviromet_path)
   
@@ -120,7 +123,7 @@ server <- function(input, output, session) {
   #GeoIP Map
   
   serverIcons <- iconList(
-    normal = makeIcon("serverIcon.png", "serverIcon@2x.png", 50, 50)
+    normal = makeIcon(iconGeoIP_path, iconGeoIP_porDos_path, 50, 50)
   )
   
   output$geoip_map <- renderLeaflet({
