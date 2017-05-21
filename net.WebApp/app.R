@@ -3,7 +3,7 @@ library(shiny)
 library(shinydashboard)
 library(ggplot2)
 library(net.security)
-library(rworldmap)
+library(leaflet)
 
 ui <- dashboardPage(
   skin = "red",
@@ -38,19 +38,16 @@ ui <- dashboardPage(
                        box(
                          selectInput("selectUrlNmap", label = h3("Nmap"), "")
                        )
-                
               ),
-              dataTableOutput("vulneravilitis")
-            
-            
+              h2("Nmap results"),
+              dataTableOutput("nmap_vulneravilitis"),
+              h2("Nikto results"),
+              dataTableOutput("nikto_vulneravilitis")
       ),
       
       # Second tab content
       tabItem(tabName = "geoip",
-              fluidRow(
-                box(plotOutput("geo_IPmap", height = 1000),
-                    width = 12)
-              )  
+              leafletOutput("geoip_map",width="100%",height="900px")
               
       ),
       
@@ -74,11 +71,13 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
   
-  netSecurity_path<- getwd()
+  #Configure enviroment
+  netSecurity_path <- getwd()
   path_config_path <-  paste(netSecurity_path, "/R/path_config.R", sep = "")
   source(path_config_path)
   source(confing_enviromet_path)
   
+  #Extract info
   t_wVuls <- GetNumberOfVuls()
   
   #Web vulneraviliti Nikto
@@ -89,11 +88,9 @@ server <- function(input, output, session) {
 
   #Web vulneraviliti Nikto
   observeEvent(input$selectUrlNikto, {
-
     webvulsDataframe <- GetVulneravilityNikto_fromUrlDataframe(input$selectUrlNikto)
-
-    output$vulneravilitis = renderDataTable({
-      webvulsDataframe
+    output$nikto_vulneravilitis = renderDataTable({
+    webvulsDataframe
     })
   })
 
@@ -106,8 +103,8 @@ server <- function(input, output, session) {
   #Web vulneravility from nmap
   observeEvent(input$selectUrlNmap, {
     nmapvulsDataframe <- GetVulsNMAP_fromUrlDataframe(input$selectUrlNmap)
-    output$vulneravilitis = renderDataTable({
-      nmapvulsDataframe
+    output$nmap_vulneravilitis = renderDataTable({
+    nmapvulsDataframe
     })
   })
 
@@ -116,17 +113,22 @@ server <- function(input, output, session) {
   output$numverofvuls <- renderPlot({
    df2=t_wVuls[order(t_wVuls$Vulneravilitys),]
    df2$url=factor(df2$url,levels=df2$url)
-   g <- ggplot(df2,aes(x=factor(url),y=Vulneravilitys)) + geom_bar(stat='identity') + coord_flip() + labs(y='Vulnerailitys',x='url')
-   g + ggtitle("Number of vulnerabilities per scanned url") 
+   g <- ggplot(df2,aes(x=factor(url), y=Vulneravilitys, fill=url)) + geom_bar(stat='identity') + labs(y='Vulnerailitys',x='Urls')
+   g + ggtitle("Number of vulnerabilities extracted by Nikto from each url") + theme(legend.position="bottom")
   })
   
   #GeoIP Map
-  output$geo_IPmap <- renderPlot({
-    n <- joinCountryData2Map(geoIP, joinCode="NAME", nameJoinColumn="country_name")
-    newmap <- mapCountryData(mapTitle="World")
-    newmap
-    points(geoIP$longitude, geoIP$latitude, col = "red", cex = .6)
-    })
+  
+  serverIcons <- iconList(
+    normal = makeIcon("serverIcon.png", "serverIcon@2x.png", 50, 50)
+  )
+  
+  output$geoip_map <- renderLeaflet({
+    m <- leaflet(geoIP) %>%
+      addTiles() %>%  # Add default OpenStreetMap map tiles
+      addMarkers(~longitude, ~latitude, popup=paste("<a>",geoIP$ip,"</a>") , icon = ~serverIcons["normal"])
+    m
+  }) 
   
   #Search CVEs
   #output$value <- renderPrint({ input$select })

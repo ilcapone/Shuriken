@@ -68,6 +68,8 @@ GetNumberOfVuls <- function(){
   colnames(Tidy_Numer_VulsData) <- x
   Tidy_Numer_VulsData <- Tidy_Numer_VulsData[order(Tidy_Numer_VulsData$Vulneravilitys),]
   Tidy_Numer_VulsData %>% mutate_if(is.factor, as.character) -> Tidy_Numer_VulsData
+  Tidy_Numer_VulsData["id"] <-  seq(1, nrow(Tidy_Numer_VulsData), by=1)
+
   return(Tidy_Numer_VulsData)
 }
 

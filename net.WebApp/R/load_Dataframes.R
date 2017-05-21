@@ -24,6 +24,8 @@ GetNiktoVulneravilitysDataframe <- function(){
   colnames(VulsData) <- x
   VulsData %>% mutate_if(is.factor, as.character) -> VulsData
   VulsData <- filter(VulsData, url != "Nikto - v2.1.6/2.1.5")
+  VulsData <- filter(VulsData, ip != "")
+  VulsData <- filter(VulsData, url != " and has had a Roman numeral II added to its model number. The previous version")
   return(VulsData)
 }
 
@@ -58,5 +60,6 @@ GetGeoIPDataframe <- function (){
   colnames(GeoData) <- x
   GeoData %>% mutate_if(is.factor, as.character) -> GeoData
   GeoData <- filter(GeoData, city != "city")
+  GeoData <- transform(GeoData, longitude = as.numeric(longitude), latitude = as.numeric(latitude))
   return(GeoData)
 }

@@ -1,4 +1,7 @@
 
+# Path project
+netSecurity_path <- getwd()
+
 # Path of directoris
 data_path <- paste(netSecurity_path, "/data", sep="")
 R_path <- paste(netSecurity_path, "/R", sep="")
