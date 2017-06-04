@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
 
 # shuriken
@@ -34,9 +34,17 @@ def exit():
 	print "[$ shuriken $] Chao! \n"
 	sys.exit()
 
+def crawle_start():
+	print "[$ crawler $] Start crawler"
+	crawlerModule.start_Crawler()
+
 def nikto_start_crawler_controller():
 	print "[$ nikto $] Start nikto from controller"
 	niktoModule.crawler_nikto_controller()
+
+def geolocalizeIP_start():
+	print "[$ geo-ip $] Start geoIP"
+	localice.main()
 
 def file_Result():
 	print "[$ fileResult $] Start file result"
@@ -59,6 +67,9 @@ def crawler_complet_proces():
 	nikto_start_crawler_controller()
 	print "[$ controller $] Start complet nmap process .."
 	nmapCrawler.crawler_nmap_controller()
+	print "[$ controller $] Start complet geo Ip process .."
+	geolocalizeIP_start()
+	print "[$ controller $] End crawler process"
 
 
 options = {
@@ -81,7 +92,6 @@ def main():
 		print "                               3 : Net.security WebApp"
 		print "                               4 : Crawling proces"
 		print "                               5 : Independent tools"
-
 		print "\n"
 		try:
 			inp = raw_input('[$ shuriken $] > ')
