@@ -7,19 +7,23 @@ import subprocess
 import sys
 import os
 from crawler import niktoModule
+from crawler import tools_menu
 from crawler.shurikenCrawler import crawlerModule
 from crawler.shurikenNmap import shuriken
+from crawler.shurikenNmap import nmapCrawler
 from crawler.shurikenGeoIP import localice
 from crawler.shurikenReadData import readData
 
 #Project paths
-shuriken_path = os.getcwd()
-
+#shuriken_path = os.getcwd()
 #Modues paths
-wig_path = shuriken_path + "/crawler/WebVuls/wig/wig/wig.py"
-
+#wig_path = shuriken_path + "/crawler/WebVuls/wig/wig/wig.py"
 #Files paths
-data = shuriken_path + "/crawler/data"
+#data = shuriken_path + "/crawler/data"
+#Files crawler paths
+#data_crawler = shuriken_path + "/data/crawler_data"
+#Files single paths
+#data_single = shuriken_path + "/data/single_data"
 
 def info():
 	print "\n"
@@ -29,34 +33,10 @@ def info():
 def exit():
 	print "[$ shuriken $] Chao! \n"
 	sys.exit()
-def crawle_start():
-	print "[$ crawler $] Start crawler"
-	crawlerModule.start_Crawler()
 
-def nikto_start_basic():
-	print "[$ nikto $] Start nikto"
-	niktoModule.basic_nikto()
-
-def nikto_start_crawler():
-	print "[$ nikto $] Start nikto"
-	niktoModule.crawler_nikto()
-
-def portScann_start():
-	print "[$ portScann $] Start portScann"
-	shuriken.main()
-
-def geolocalizeIP_start():
-	print "[$ geo-ip $] Start geoIP"
-	localice.main()
-
-def wig_strat():
-	f = open(data + "/Vuls_wig.txt", "w")
-	print "[$ wig $] Start wig"
-	n = raw_input('[$ wig $] Set url > ')
-	print "[$ wig $] Wig web vulnerability scan is running ...."
-	exit_wig = subprocess.call("python3 " + wig_path + " " + n, shell=True, stdout=f)
-	print "[$ wig $] Finish wig scann"
-	print "[$ wig $] Output file in data/Vuls_wig.txt"
+def nikto_start_crawler_controller():
+	print "[$ nikto $] Start nikto from controller"
+	niktoModule.crawler_nikto_controller()
 
 def file_Result():
 	print "[$ fileResult $] Start file result"
@@ -67,7 +47,27 @@ def net_security():
 	exit_r = subprocess.call("Rscript app.R &", shell=True)
 	print "[$ net.security $] Net.Security WebApp"
 
-options = {'0':exit, '1':info, '2':crawle_start, '3':nikto_start_crawler, '4':nikto_start_basic, '5':portScann_start, '6':wig_strat, '7':geolocalizeIP_start, '8':file_Result, '9':net_security}
+def independent_tools():
+	print "\n"
+	tools_menu.main()
+
+def crawler_complet_proces():
+	gass()
+	print "[$ controller $] Start complet crawler process .."
+	crawle_start()
+	print "[$ controller $] Start complet nikto process .."
+	nikto_start_crawler_controller()
+	print "[$ controller $] Start complet nmap process .."
+	nmapCrawler.crawler_nmap_controller()
+
+
+options = {
+'0':exit,
+'1':info,
+'2':file_Result,
+'3':net_security,
+'4':crawler_complet_proces,
+'5':independent_tools}
 
 def main():
 	
@@ -77,20 +77,16 @@ def main():
 		print "                                 "
 		print "                               0 : Exit"
 		print "                               1 : Info"
-		print "                               2 : Crawler"
-		print "                               3 : Nikto crawler scan"
-		print "                               4 : Nikto single scan"
-		print "                               5 : Port Scann"
-		print "                               6 : Wig"
-		print "                               7 : GeoIP"
-		print "                               8 : File result"
-		print "                               9 : Net.security WebApp"
+		print "                               2 : File result"
+		print "                               3 : Net.security WebApp"
+		print "                               4 : Crawling proces"
+		print "                               5 : Independent tools"
 
 		print "\n"
 		try:
 			inp = raw_input('[$ shuriken $] > ')
 			n = str(inp)
-			if '0' in n or '1' in n or '2' in n or '3' in n or '4' in n or '5' in n or '6' in n or '7' in n or '8' in n or '9' in n:
+			if '0' in n or '1' in n or '2' in n or '3' in n or '4' in n or '5' in n:
 				options[n]()
 			else:
 				print('[$ shuriken $] Is not recognized as a valid command')
@@ -98,7 +94,18 @@ def main():
 		except KeyboardInterrupt:
 			print "Stopping Shuriken"
 			sys.exit()
-		
+def gass():
+	print "\n"
+	print '  /$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$$'
+	print ' /$$__  $$ |____  $$ /$$_____//$$_____/'
+	print '| $$  \ $$  /$$$$$$$|  $$$$$$|  $$$$$$ '
+	print '| $$  | $$ /$$__  $$ \____  $$\____  $$'
+	print '|  $$$$$$$|  $$$$$$$ /$$$$$$$//$$$$$$$/'
+	print ' \____  $$ \_______/|_______/|_______/ '
+	print ' /$$  \ $$                             '
+	print '|  $$$$$$/                             '
+	print  '\______/                              '
+	print "\n"
 
 if __name__ == "__main__":
 	print "==========================================================================="

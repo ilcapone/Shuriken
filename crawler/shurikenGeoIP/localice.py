@@ -9,11 +9,13 @@ import os
 
 ip_list=['init']
 geo_ip_list = []
+
+#Paths
 shuriken_path = os.getcwd()
 dictionary = shuriken_path + "/crawler/shurikenGeoIP/GeoLiteCity.dat"
-data = shuriken_path + "/crawler/data/geoIP_specificIP.csv"
-data_crawler = shuriken_path + "/crawler/data/geoIP_crawlerIP.csv"
-nikto_data = shuriken_path + "/crawler/data/nikto_crawler_links.csv"
+data_crawler = shuriken_path + "/data/crawler_data/geoIP_crawlerIP.csv"
+nikto_data = shuriken_path + "/data/crawler_data/nikto_crawler_links.csv"
+data_single = shuriken_path + "/data/single_data"
 
 def back():
 	print "[$ geo-ip $] Back main menu \n"
@@ -21,17 +23,21 @@ def back():
 def specific_IP():
 	print "[$ geo-ip $] Specific geo IP"
 	ip = raw_input('[$ geo-ip $] Insert ip > ')
+	data_geoIP_path = data_single + "/geo_IP/" +ip
+	if not os.path.exists(data_geoIP_path):
+		os.makedirs(data_geoIP_path)
+
 	gi = GeoIP.open(dictionary, GeoIP.GEOIP_INDEX_CACHE | GeoIP.GEOIP_CHECK_CACHE)
 	geoInfo = gi.record_by_name(ip)
-	with open(data, 'wb') as f:
+	with open(data_geoIP_path + "/geoIP_specificIP.csv", 'wb') as f:
 		w = csv.DictWriter(f, geoInfo.keys())
 		w.writeheader()
 		w.writerow(geoInfo)
 
 def crawler_IP():
 	print "[$ geo-ip $] Crawler"
-	print "[$ geo-ip $] Open data/nikto_crawler_links.csv"
-	fName= nikto_data
+	print "[$ geo-ip $] Open nikto_crawler_links.csv"
+	fName = nikto_data
 	firstWrite = True
 	if os.path.exists(fName):
 		with open(fName, 'rU') as f:
@@ -42,16 +48,16 @@ def crawler_IP():
 						print "[$ geo-ip $] Cuerren reader IP :" + row[1]
 						check_current_url(row[1])
 			except Exception as e:
-				print "[$ geo-ip $] Error reading data/nikto_crawler_links.csv"
+				print "[$ geo-ip $] Error reading nikto_crawler_links.csv"
 				print e
 			try:
 				print "[$ geo-ip $] Writing ..."
 				write_geoIP_crawler()
 			except Exception as e:
-				print "[$ geo-ip $] Error writing data/geoIP_crawlerIP.csv"
+				print "[$ geo-ip $] Error writing geoIP_crawlerIP.csv"
 				print e
 	else:
-		print "[$ geo-ip $] The file data/nikto_crawler_links.csv don't exist, please first run nikto crawler"
+		print "[$ geo-ip $] The file nikto_crawler_links.csv don't exist, please first run nikto crawler"
 	print "[$ geo-ip $] Output file geoIP_crawlerIP.csv in /data forlder"
 
 def check_current_url(curr_ip):

@@ -4,7 +4,8 @@ netSecurity <- getwd()
 netSecurity_path <- paste(netSecurity, "/net.WebApp", sep = "")
 
 # Path of directoris
-data_path <- paste(netSecurity_path, "/data", sep="")
+#data_path <- paste(netSecurity_path, "/data", sep="")
+data_path <- paste(netSecurity, "/data/netSecurity_data", sep="")
 R_path <- paste(netSecurity_path, "/R", sep="")
 
 # Path of R scripts
