@@ -42,9 +42,9 @@ def nikto_start_crawler_controller():
 	print "[$ nikto $] Start nikto from controller"
 	niktoModule.crawler_nikto_controller()
 
-def geolocalizeIP_start():
+def geolocalizeIP_start_controller():
 	print "[$ geo-ip $] Start geoIP"
-	localice.main()
+	localice.crawler_IP()
 
 def file_Result():
 	print "[$ fileResult $] Start file result"
@@ -68,7 +68,7 @@ def crawler_complet_proces():
 	print "[$ controller $] Start complet nmap process .."
 	nmapCrawler.crawler_nmap_controller()
 	print "[$ controller $] Start complet geo Ip process .."
-	geolocalizeIP_start()
+	geolocalizeIP_start_controller()
 	print "[$ controller $] End crawler process"
 
 
