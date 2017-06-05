@@ -14,17 +14,6 @@ from crawler.shurikenNmap import nmapCrawler
 from crawler.shurikenGeoIP import localice
 from crawler.shurikenReadData import readData
 
-#Project paths
-#shuriken_path = os.getcwd()
-#Modues paths
-#wig_path = shuriken_path + "/crawler/WebVuls/wig/wig/wig.py"
-#Files paths
-#data = shuriken_path + "/crawler/data"
-#Files crawler paths
-#data_crawler = shuriken_path + "/data/crawler_data"
-#Files single paths
-#data_single = shuriken_path + "/data/single_data"
-
 def info():
 	print "\n"
 	print "[$ shuriken $] Shuriken is PoC for a final master's work in cybersecurity, for knowlements. Use this tool with caution and do not use it for malicious purposes. The author is not responsible for any damages caused by third parties"
@@ -62,13 +51,13 @@ def independent_tools():
 def crawler_complet_proces():
 	gass()
 	print "[$ controller $] Start complet crawler process .."
-	crawle_start()
+	#crawle_start()
 	print "[$ controller $] Start complet nikto process .."
-	nikto_start_crawler_controller()
+	#nikto_start_crawler_controller()
 	print "[$ controller $] Start complet nmap process .."
 	nmapCrawler.crawler_nmap_controller()
 	print "[$ controller $] Start complet geo Ip process .."
-	geolocalizeIP_start_controller()
+	#geolocalizeIP_start_controller()
 	print "[$ controller $] End crawler process"
 
 
