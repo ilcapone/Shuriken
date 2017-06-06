@@ -40,8 +40,9 @@ def file_Result():
 	readData.main()
 
 def net_security():
-	print "[$ net.security $]  Runing Shiny web app ...."
-	exit_r = subprocess.call("Rscript app.R &", shell=True)
+	print "[$ net.security $] Runing Shiny web app ...."
+	ip = raw_input('[$ net.security $] Specify the ip where the application will run > ')
+	exit_r = subprocess.call("Rscript app.R "+ ip +" &", shell=True)
 	print "[$ net.security $] Net.Security WebApp"
 
 def independent_tools():
@@ -51,13 +52,13 @@ def independent_tools():
 def crawler_complet_proces():
 	gass()
 	print "[$ controller $] Start complet crawler process .."
-	#crawle_start()
+	crawle_start()
 	print "[$ controller $] Start complet nikto process .."
-	#nikto_start_crawler_controller()
+	nikto_start_crawler_controller()
 	print "[$ controller $] Start complet nmap process .."
 	nmapCrawler.crawler_nmap_controller()
 	print "[$ controller $] Start complet geo Ip process .."
-	#geolocalizeIP_start_controller()
+	geolocalizeIP_start_controller()
 	print "[$ controller $] End crawler process"
 
 

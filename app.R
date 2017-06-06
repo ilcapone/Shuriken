@@ -169,4 +169,5 @@ server <- function(input, output, session) {
   
 }
 
-shinyApp(ui, server, options=list(port = 7777, host = ''))
+args = commandArgs(trailingOnly=TRUE)
+shinyApp(ui, server, options=list(port = 7777, host = args[1]))

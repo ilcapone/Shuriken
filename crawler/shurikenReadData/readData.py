@@ -60,10 +60,13 @@ def viewFile():
 			except:
 				print '[$ fileResult $] Error! Try again'
 	else:
-		print('[$ shuriken $] Only 1 or 2 options')
+		print('[$ fileResult $] Only 1 or 2 options')
 	main()
 
-options = {'1':viewFiles,'2':viewFile, '0':back}
+def updateResultsNetSecurity():
+	print('[$ fileResult $] Only 1 or 2 options')
+
+options = {'1':viewFiles,'2':viewFile, '3':updateResultsNetSecurity, '0':back}
 
 def main():
 	print "\n"
@@ -72,6 +75,7 @@ def main():
 	print "               0 : Back"
 	print "               1 : View files in folder"
 	print "               2 : View result content"
+	print "               3 : Update netSecurity results"
 	print "\n"
 	n = raw_input('[$ fileResult $] > ')
 	options[n]()
