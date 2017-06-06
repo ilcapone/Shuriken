@@ -3,3 +3,17 @@
 .RData
 .Ruserdata
 /net.WebApp/data
+data/crawler_data/crawler_links.csv
+data/crawler_data/geoIP_crawlerIP.csv
+data/crawler_data/nikto_crawler_links.csv
+data/crawler_data/nmap_crawler.csv
+data/netSecurity_data/crawler_links.csv
+data/netSecurity_data/geoIP_crawlerIP.csv
+data/netSecurity_data/nikto_crawler_links.csv
+data/netSecurity_data/nmap_crawler.csv
+data/single_data/geo_IP/185.92.244.45/geoIP_specificIP.csv
+data/single_data/nikto/hotelcharlejaca/nikto_basic_scan.csv
+data/single_data/nikto/onlythejuice/nikto_basic_scan.csv
+data/single_data/wig/fermelabouche/Vuls_wig.txt
+data/single_data/wig/hotelcharlejaca/Vuls_wig.txt
+data/single_data/wig/onlythejuice/Vuls_wig.txt
