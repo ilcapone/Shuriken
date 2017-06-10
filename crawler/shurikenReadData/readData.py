@@ -64,7 +64,15 @@ def viewFile():
 	main()
 
 def updateResultsNetSecurity():
-	print('[$ fileResult $] Only 1 or 2 options')
+	print('[$ fileResult $] Checking whether crawler files have been created correctly')
+	crawler_links_path = crawler_path + "/crawler_links.csv"
+	nikto_path = crawler_path + "/nikto_crawler_links.csv"
+	nmap_path = crawler_path + "/nmap_crawler.csv"
+	geoIP_path = crawler_path + "/geoIP_crawlerIP.csv"
+	if os.path.exists(crawler_links_path) and os.path.exists(nikto_path) and os.path.exists(nmap_path) and os.path.exists(geoIP_path):
+		print('[$ fileResult $] Checking files has been created correctly!')
+		print('[$ fileResult $] Pass to update netSecurity results folder ... ')
+
 
 options = {'1':viewFiles,'2':viewFile, '3':updateResultsNetSecurity, '0':back}
 
