@@ -1,3 +1,16 @@
+#extract dataframe from openvass.xml
+#example scrapyData <- GetScrapyLinksDataframe()
+GetOpenVasDataframe <- function (){
+  #openvas_path <- "D:/CYBERSECURITY MANAGMENT (Master)/CyS/TFM/ShurikenRepository/data/netSecurity_data/openvas_data.xml"
+  opv <- xmlParse(openvas_path)
+  nodeCve <- xmlRoot(opv)
+  opv_cves <- xpathSApply(nodeCve, "//cve", xmlValue)
+  opv_cves <- opv_cves[opv_cves !=  "NOCVE"]
+  opv_cves_DF <- data.frame(opv_cves, stringsAsFactors=FALSE)
+  cleanColums <- strsplit(opv_cves_DF$opv_cves, split = ", ")
+  opvCvesDF <- data.frame(cves=unlist(cleanColums))
+  return(opvCvesDF)
+}
 
 #extract dataframe from crawler_links.cvs
 #example scrapyData <- GetScrapyLinksDataframe() 
