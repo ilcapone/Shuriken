@@ -13,6 +13,7 @@ from crawler.shurikenNmap import shuriken
 from crawler.shurikenNmap import nmapCrawler
 from crawler.shurikenGeoIP import localice
 from crawler.shurikenReadData import readData
+from openvas import openvas_ompController
 
 def info():
 	print "\n"
@@ -46,6 +47,7 @@ def net_security():
 	print "[$ net.security $] Net.Security WebApp"
 
 def independent_tools():
+	print "[$ openvas $] Start independents tool .."
 	print "\n"
 	tools_menu.main()
 
@@ -61,6 +63,11 @@ def crawler_complet_proces():
 	geolocalizeIP_start_controller()
 	print "[$ controller $] End crawler process"
 
+def start_openvas():
+	print "[$ openvas $] Start Openvas tool .."
+	print "\n"
+	openvas_ompController.main()
+
 
 options = {
 '0':exit,
@@ -68,7 +75,8 @@ options = {
 '2':file_Result,
 '3':net_security,
 '4':crawler_complet_proces,
-'5':independent_tools}
+'5':independent_tools,
+'6':start_openvas}
 
 def main():
 	
@@ -82,11 +90,12 @@ def main():
 		print "                               3 : Net.security WebApp"
 		print "                               4 : Crawling proces"
 		print "                               5 : Independent tools"
+		print "                               6 : OpenVas"
 		print "\n"
 		try:
 			inp = raw_input('[$ shuriken $] > ')
 			n = str(inp)
-			if '0' in n or '1' in n or '2' in n or '3' in n or '4' in n or '5' in n:
+			if '0' in n or '1' in n or '2' in n or '3' in n or '4' in n or '5' in n or '6' in n:
 				options[n]()
 			else:
 				print('[$ shuriken $] Is not recognized as a valid command')
