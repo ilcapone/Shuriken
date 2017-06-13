@@ -4,6 +4,7 @@ library(shinydashboard)
 library(ggplot2)
 library(net.security)
 library(leaflet)
+library(XML)
 
 ui <- dashboardPage(
   skin = "red",

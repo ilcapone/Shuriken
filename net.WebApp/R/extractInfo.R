@@ -1,5 +1,12 @@
 #-------------------------------------------------------------------------------------
 
+######## FUNCTIONS FOR OPENVAS EXTRACT INFO #######
+
+# Extract the relevant info from openvas xml results
+
+
+#-------------------------------------------------------------------------------------
+
 ######## FUNCTIONS FOR CRAWLER EXTRACT INFO #######
 
 # extract only de infoVuls nikcto from concret url
