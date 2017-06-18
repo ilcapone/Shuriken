@@ -47,7 +47,7 @@ def net_security():
 	print "[$ net.security $] Net.Security WebApp"
 
 def independent_tools():
-	print "[$ openvas $] Start independents tool .."
+	print "[$ tools $] Start independents tool .."
 	print "\n"
 	tools_menu.main()
 

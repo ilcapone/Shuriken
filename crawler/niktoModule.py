@@ -49,12 +49,12 @@ def basic_nikto():
 		ip_port = raw_input('[$ nikto $] Insert proxy IP:PORT > ')
 		proxy = '-useproxy http://'+ str(ip_port) +'/'
 		print "[$ nikto $] Starting nikto ... adicional param: " + str(proxy)
-		nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output " + data_nikto_single_path
+		nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -C all -Display -F csv -output " + data_nikto_single_path
 		print(nikto)
 		subprocess.call(nikto,shell = True)
 	else:
 		print "[$ nikto $] Starting nikto ..."
-		nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -Display -F csv -output " + data_nikto_single_path
+		nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -C all -Display -F csv -output " + data_nikto_single_path
 		subprocess.call(nikto,shell = True)
 
 	print "[$ nikto $] Output file nikto_basic_scan.csv"

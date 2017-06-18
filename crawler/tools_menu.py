@@ -97,3 +97,4 @@ def main():
 			main()
 	except KeyboardInterrupt:
 		print "Stopping Shuriken"
+		sys.exit()
