@@ -9,11 +9,12 @@ source(extractInfo_path)
 
 #extract datagrame from net.security pacage
 cves <- CleanCVSS_fromCVEs()
-print("[$ shuriken $] Load cves dataframe from nt.security package")
+print("[$ shuriken $] Load cves dataframe from net.security package")
 cves_Shiny <- CleanCVES_Shiny()
 print("[$ shuriken $] Cleam cves dataframe for Shiny app")
 cpes <- GetDataFrame("cpes")
-print("[$ shuriken $] Load cpes dataframe from nt.security package")
+print("[$ shuriken $] Load cpes dataframe from net.security package")
+
 #extract dataframes from csv files crawler
 crawlerlinks <- GetScrapyLinksDataframe()
 print("[$ shuriken $] Load crawler_links.csv in crawlerlinks dataframe")
@@ -23,6 +24,7 @@ nmapscan <- GetNmapScanIpDataframe()
 print("[$ shuriken $] Load nmap_crawler.csv in nmapscan dataframe")
 geoIP <- GetGeoIPDataframe()
 print("[$ shuriken $] Load geoIP_crawlerIP.csv in geoIP dataframe")
+
 #extract dataframe from xml openvas
 openvas <- GetOpenVasDataframe()
 print("[$ shuriken $] Load openvas_data.xml in openvas dataframe")
@@ -30,7 +32,9 @@ print("[$ shuriken $] Load openvas_data.xml in openvas dataframe")
 print("[$ shuriken $] Curren functions: ")
 print("[$ shuriken $]                  * GetVulneravilityNikto_fromUrlDataframe('url')")
 print("[$ shuriken $]                  * GetVulsNMAP_fromUrlDataframe('url')")
+print("[$ shuriken $]                  * MachingOpenvasCVEs_inCVEsDF()")
 print("[$ shuriken $]                  * GetNumberOfVuls()")
+print("[$ shuriken $]                  * Search_ConcretCVE('CVE-xxxx-yyyy')")
 print("[$ shuriken $] Finish load enviroment")
 print("[$ shuriken $] Current Dataframes: ")
 print("[$ shuriken $] - cves")

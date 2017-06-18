@@ -12,10 +12,11 @@ ui <- dashboardPage(
   dashboardSidebar(
     
     sidebarMenu(
-      menuItem("Resum", tabName = "resum", icon = icon("thermometer-half")),
-      menuItem("Scann info", tabName = "scan", icon = icon("free-code-camp")),
+      menuItem("Crawler", tabName = "scan", icon = icon("free-code-camp")),
+      menuItem("OpenVAS", tabName = "openvas", icon = icon("eye")),
       menuItem("GeoIP", tabName = "geoip", icon = icon("bar-chart")),
-      menuItem("SearchCVES", tabName = "searchVuls", icon = icon("bolt"))
+      menuItem("CVES", tabName = "searchVuls", icon = icon("bolt")),
+      menuItem("Resum", tabName = "resum", icon = icon("thermometer-half"))
     )
     
   ),
@@ -31,7 +32,10 @@ ui <- dashboardPage(
       
       # Second tab content
       tabItem(tabName = "scan",
-
+              fluidRow(
+                valueBoxOutput("TotalNikto_Vuls"),
+                valueBoxOutput("TotalNmap_Vuls")
+              ),
               fluidRow(
                        box(
                          selectInput("selectUrlNikto", label = h3("Nikto"), "")
@@ -46,28 +50,45 @@ ui <- dashboardPage(
               dataTableOutput("nikto_vulneravilitis")
       ),
       
-      # Second tab content
+      # Third tab content
       tabItem(tabName = "geoip",
               leafletOutput("geoip_map",width="100%",height="900px")
               
       ),
       
-      # Second tab content
+      # Third tab content
+      tabItem(tabName = "openvas",
+              fluidRow(
+              )
+      ),
+      
+      
+      # Fourth tab content
       tabItem(tabName = "searchVuls",
+              fluidRow(
+                        valueBoxOutput("TotalCVEsinNetSecurity")
+              ),
               fluidRow(
                 column(width = 12,
                        box(
                          selectInput("selectTipe", label = h3("Search CVEs by type: "), 
                                      choices = list("XSS" = 1, "SQL" = 2, "Authentication" = 3, "CSRF" = 4, "BufferOverFlow" = 5, "None"=6), 
                                      selected = 6)
+                       ),
+                       box(
+                         textInput("CveTextInput", label = h3("Search CVE by Id"), value = "eg: 2016-5195")
                        )
                 )
               ),
+              fluidRow(
+                uiOutput("box_cveID"),
+                uiOutput("box_cve_info"),
+                uiOutput("box_cve_cvss")
+              ),
               dataTableOutput("cvesSearch")
-              
-      )
+            )
+        )
     )
-  )
 )
 
 server <- function(input, output, session) {
@@ -84,6 +105,39 @@ server <- function(input, output, session) {
   #Extract info
   t_wVuls <- GetNumberOfVuls()
   
+  #Search cves by code
+  observeEvent(input$CveTextInput, {
+    CVEs_Dataframe <- Search_ConcretCVE(input$CveTextInput)
+    #CVE rendertable
+    #output$cvesSearch = renderDataTable(
+    #  CVEs_Dataframe,
+    #  options = list(scrollX = TRUE)
+    #)
+    #CVE info render
+    output$box_cveID <- renderUI({
+      box(title = paste("Description of ",  CVEs_Dataframe$cve, sep=" "),
+          width = 4, background = "black",
+          CVEs_Dataframe$description)
+    })
+    #CVE info status
+    output$box_cve_info <- renderUI({
+      box(title = "Info",
+          width = 4, background = "black",
+          p(CVEs_Dataframe$phase),
+          p(CVEs_Dataframe$status),
+          p(CVEs_Dataframe$cwe))
+    })
+    
+    #CVE info cvss
+    output$box_cve_cvss <- renderUI({
+      box(title = "CVSS",
+          width = 4, background = "black",
+          p(paste("Score ",  CVEs_Dataframe$cvss.score, sep=" ")),
+          p(paste("Access vector ",  CVEs_Dataframe$`cvss.access-vector`, sep=" ")),
+          p(paste("Authentication ",  CVEs_Dataframe$cvss.authentication, sep=" "))
+      )
+    })
+  })
   #Web vulneraviliti Nikto
   observe({
       updateSelectInput(session, "selectUrlNikto",
@@ -93,9 +147,10 @@ server <- function(input, output, session) {
   #Web vulneraviliti Nikto
   observeEvent(input$selectUrlNikto, {
     webvulsDataframe <- GetVulneravilityNikto_fromUrlDataframe(input$selectUrlNikto)
-    output$nikto_vulneravilitis = renderDataTable({
-    webvulsDataframe
-    })
+    output$nikto_vulneravilitis = renderDataTable(
+    webvulsDataframe,
+    options = list(scrollX = TRUE)
+    )
   })
 
   #Web vulneravility from nmap
@@ -107,9 +162,10 @@ server <- function(input, output, session) {
   #Web vulneravility from nmap
   observeEvent(input$selectUrlNmap, {
     nmapvulsDataframe <- GetVulsNMAP_fromUrlDataframe(input$selectUrlNmap)
-    output$nmap_vulneravilitis = renderDataTable({
-    nmapvulsDataframe
-    })
+    output$nmap_vulneravilitis = renderDataTable(
+    nmapvulsDataframe,
+    options = list(scrollX = TRUE)
+    )
   })
 
   
@@ -122,7 +178,6 @@ server <- function(input, output, session) {
   })
   
   #GeoIP Map
-  
   serverIcons <- iconList(
     normal = makeIcon(iconGeoIP_path, iconGeoIP_porDos_path, 50, 50)
   )
@@ -165,6 +220,30 @@ server <- function(input, output, session) {
     output$cvesSearch = renderDataTable(
       CVEs_Dataframe,
       options = list(scrollX = TRUE)
+    )
+  })
+  
+  #Number of CVEs in Net.Security Dataframes
+  output$TotalCVEsinNetSecurity <- renderInfoBox({
+    n <- Number_of_CVEs()
+    valueBox( n, "CVEs", icon = icon("list"),
+      color = "red"
+    )
+  })
+  
+  #Number of CVEs in Net.Security Dataframes
+  output$TotalNikto_Vuls <- renderInfoBox({
+    nk <- Number_of_Nikto_Scans()
+    valueBox( nk, "Nikto", icon = icon("list"),
+              color = "red"
+    )
+  })
+  
+  #Number of CVEs in Net.Security Dataframes
+  output$TotalNmap_Vuls <- renderInfoBox({
+    np <- Number_of_Nmap_Scans()
+    valueBox( np, "Nmap", icon = icon("list"),
+              color = "red"
     )
   })
   
