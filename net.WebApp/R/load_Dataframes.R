@@ -8,7 +8,8 @@ GetOpenVasDataframe <- function (){
   opv_cves <- opv_cves[opv_cves !=  "NOCVE"]
   opv_cves_DF <- data.frame(opv_cves, stringsAsFactors=FALSE)
   cleanColums <- strsplit(opv_cves_DF$opv_cves, split = ", ")
-  opvCvesDF <- data.frame(cves=unlist(cleanColums))
+  opvCvesDF <- data.frame(cve=unlist(cleanColums))
+  opvCvesDF %>% mutate_if(is.factor, as.character) -> opvCvesDF
   return(opvCvesDF)
 }
 

@@ -1,7 +1,7 @@
 # path for tests
 #D:/CYBERSECURITY MANAGMENT (Master)/CyS/TFM/ShurikenRepository/
 
-# Path project
+# Path app
 netSecurity <- getwd()
 netSecurity_path <- paste(netSecurity, "/net.WebApp", sep = "")
 

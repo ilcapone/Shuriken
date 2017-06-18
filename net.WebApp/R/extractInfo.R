@@ -2,12 +2,25 @@
 
 ######## FUNCTIONS FOR OPENVAS EXTRACT INFO #######
 
-# Extract the relevant info from openvas xml results
+# Cves maching
+MachingOpenvasCVEs_inCVEsDF <- function (){
+  openCVE_filter <- inner_join(cves_Shiny, openvas, by = "cve")
+  return(openCVE_filter)
+}
 
 
 #-------------------------------------------------------------------------------------
 
 ######## FUNCTIONS FOR CRAWLER EXTRACT INFO #######
+Number_of_Nikto_Scans <- function(){
+  n <- nrow(niktovuls)
+  return(n)
+}
+
+Number_of_Nmap_Scans <- function(){
+  n <- nrow(nmapscan)
+  return(n)
+}
 
 # extract only de infoVuls nikcto from concret url
 GetVulneravilityNikto_fromUrlDataframe <- function (parameter){
@@ -84,6 +97,16 @@ GetNumberOfVuls <- function(){
 #-------------------------------------------------------------------------------------
 
 ######## FUNCTIONS FOR NET.SECURITY EXTRACT INFO #######
+Number_of_CVEs <- function(){
+  n <- nrow(cves)
+  return(n)
+}
+
+Search_ConcretCVE <- function(cve_to_search){
+  cve_to_search <- paste("CVE", cve_to_search, sep="-")
+  searchCVEs <- filter(cves, cve_to_search == cve)
+}
+
 Get_Headers_CVEs <- function(){
   XHeader <- cves[grepl("header", cves$description),]
   return(XHeader)
