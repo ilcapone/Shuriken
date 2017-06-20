@@ -124,7 +124,7 @@ def openvas_getReport():
 		#subprocess.call('omp --config-file=omp.config --pretty-print --xml="<get_tasks/>"', shell=True)
 		subprocess.call('omp --config-file=openvas/omp.config --get-tasks --details', shell=True)
 		idTask = raw_input('[$ openvas $] Insert the task id report for extract results > ')
-		subprocess.call('omp --config-file=openvas/omp.config -R ' + idTask + ' - F ' + report_format + '  > data/openvas_data.xml', shell=True)
+		subprocess.call('omp --config-file=openvas/omp.config -R ' + idTask + ' - F ' + report_format + '  > data/openvas/openvas_data.xml', shell=True)
 		print "[$ openvas $] End get targets "
 		
 	except Exception,e:
