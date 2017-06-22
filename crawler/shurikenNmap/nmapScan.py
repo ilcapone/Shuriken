@@ -119,13 +119,16 @@ def back():
 
 
 
-options = {'0': basic_scan, '1': arguments_scan, '2': evade_ids ,'3': back}
+options = {'0':back, '2': basic_scan, '2': arguments_scan, '3': evade_ids}
 
 def nmapMenu():
+	print "\n"
 	print "                       - Nmap Options -"
-	print "               0 : Basic scan"
-	print "               1 : Scan with arguments"
-	print "               2 : Scan evade IDS"
-	print "               3 : Back"
+	print ""
+	print "               0 : Back"
+	print "               1 : Basic scan"
+	print "               2 : Scan with arguments"
+	print "               3 : Scan evade IDS"
+	print "\n"
 	n = raw_input('[$ nmap $] > ')
 	options[n]()

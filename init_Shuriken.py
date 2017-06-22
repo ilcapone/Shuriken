@@ -14,59 +14,105 @@ from crawler.shurikenNmap import nmapCrawler
 from crawler.shurikenGeoIP import localice
 from crawler.shurikenReadData import readData
 from openvas import openvas_ompController
+from termcolor import colored, cprint
+
+#Print collores
+shuriken_text = colored('shuriken', 'red')
+crawler_text = colored('crawler', 'red')
+nikto_text = colored('nikto', 'red')
+geoip_text = colored('geo-ip', 'red')
+fileResult_text = colored('fileResult','red')
+netsecurity_text= colored('net.security','red')
+tools_text = colored('tool','red')
+controller_text = colored('controller','red')
+openvas_text = colored('openvas','red')
+
+#Color Comands
+Exit_text = colored('Exit','blue')
+info_text = colored('Info','blue')
+File_result_text = colored('File result','blue')
+Netsecurity_text = colored('Net.security WebApp','blue')
+Crawling_proces_text = colored('Crawling proces','blue')
+independent_tools_text = colored('Independent tools', 'blue')
+OpenVas_text = colored('OpenVas','blue')
+kill_text = colored('Kill active processes','blue')
+
+#Menu Colors
+Menu_shuriken_text = colored('Shuriken','red')
+Menu_proceses_text = colored('Active Processes','red')
 
 def info():
 	print "\n"
-	print "[$ shuriken $] Shuriken is PoC for a final master's work in cybersecurity, for knowlements. Use this tool with caution and do not use it for malicious purposes. The author is not responsible for any damages caused by third parties"
+	print "[$ "+shuriken_text+" $] Shuriken is PoC for a final master's work in cybersecurity, for knowlements. Use this tool with caution and do not use it for malicious purposes. The author is not responsible for any damages caused by third parties"
 	print "\n"
 
 def exit():
-	print "[$ shuriken $] Chao! \n"
+	print "[$ " + shuriken_text +" $] Chao! \n"
 	sys.exit()
 
 def crawle_start():
-	print "[$ crawler $] Start crawler"
+	warning = colored('Start crawler ... ','yellow')
+	print "[$ "+crawler_text+" $] " + warning
 	crawlerModule.start_Crawler()
 
 def nikto_start_crawler_controller():
-	print "[$ nikto $] Start nikto from controller"
+	warning = colored('Start nikto from controller ... ','yellow')
+	print "[$ "+nikto_text+" $] " + warning
 	niktoModule.crawler_nikto_controller()
 
 def geolocalizeIP_start_controller():
-	print "[$ geo-ip $] Start geoIP"
+	warning = colored('Start geoIP ... ','yellow')
+	print "[$ "+geoip_text+" $] " + warning
 	localice.crawler_IP()
 
 def file_Result():
-	print "[$ fileResult $] Start file result"
+	warning = colored('Start file result','yellow')
+	print "[$ "+fileResult_text+" $] " + warning
 	readData.main()
 
 def net_security():
-	print "[$ net.security $] Runing Shiny web app ...."
-	ip = raw_input('[$ net.security $] Specify the ip where the application will run > ')
+	warning = colored('Runing Shiny web app ....','yellow')
+	print "[$ "+netsecurity_text+" $] " + warning
+	ip = raw_input('[$ '+netsecurity_text+' $] Specify the ip where the application will run > ')
 	exit_r = subprocess.call("Rscript app.R "+ ip +" &", shell=True)
-	print "[$ net.security $] Net.Security WebApp"
+	print "[$ "+netsecurity_text+" $] Net.Security WebApp"
 
 def independent_tools():
-	print "[$ tools $] Start independents tool .."
+	warning = colored('Start independents tool ..','yellow')
+	print "[$ "+tools_text+" $] " +warning
 	print "\n"
 	tools_menu.main()
 
 def crawler_complet_proces():
 	gass()
-	print "[$ controller $] Start complet crawler process .."
+	warning = colored('Start complet crawler process ..','yellow')
+	print "[$ "+controller_text+" $] " + warning
 	crawle_start()
-	print "[$ controller $] Start complet nikto process .."
+	warning = colored('Start nikto crawler process ..','yellow')
+	print "[$ "+controller_text+" $] " + warning
 	nikto_start_crawler_controller()
-	print "[$ controller $] Start complet nmap process .."
+	warning = colored('Start nmap process ..','yellow')
+	print "[$ "+controller_text+" $] " + warning
 	nmapCrawler.crawler_nmap_controller()
-	print "[$ controller $] Start complet geo Ip process .."
+	warning = colored('Start complet geo Ip process ..','yellow')
+	print "[$ "+controller_text+" $] " + warning
 	geolocalizeIP_start_controller()
-	print "[$ controller $] End crawler process"
+	warning = colored('End crawler process','yellow')
+	print "[$ "+controller_text+" $] " + warning
 
 def start_openvas():
-	print "[$ openvas $] Start Openvas tool .."
+	warning = colored('Start Openvas tool ..','yellow')
+	print "[$ "+openvas_text+" $] " + warning
 	print "\n"
 	openvas_ompController.main()
+
+def kill_process():
+	warning = colored('Be careful you could stop some important process !!','yellow')
+	print "[$ "+shuriken_text+" $] " + warning
+	pid_proces = raw_input('[$ ' + shuriken_text + ' $] Insert the process PID > ')
+	subprocess.call('kill -9 ' + pid_proces ,shell = True)
+	print "[$ "+shuriken_text+" $] The process " + pid_proces + " has been stopped"
+	print "\n"
 
 
 options = {
@@ -76,29 +122,66 @@ options = {
 '3':net_security,
 '4':crawler_complet_proces,
 '5':independent_tools,
-'6':start_openvas}
+'6':start_openvas,
+'7':kill_process}
 
 def main():
-	
+
 	while True:
+
+		results_openvas = subprocess.check_output("ps aux | grep openvasmd", shell=True)
+		results_openvas = results_openvas.split('\n')
+		for result in results_openvas:
+			if 'grep' in result or '' in result and len(result)==0:
+				pass
+			else:
+				result = result.split(' ')
+				try:
+					results_openvas = str("PID > " + result[6] + "   Process > " + result[28])
+				except Exception, e:
+					print result
+					print e
+
+		results_appR = subprocess.check_output("ps aux | grep app.R", shell=True)
+		results_appR = results_appR.split('\n')
+		for result in results_appR:
+			if 'grep' in result or '' in result and len(result)==0:
+				pass
+			else:
+				result = result.split(' ')
+				try:
+					results_appR = str("PID > " + result[6] + "   Process > " + result[25] + "" + result[28] + "" + result[29] +" " + result[30])
+				except:
+					try:
+						results_appR = str("PID > " + result[6] + "   Process > " + result[24] + "" + result[27] + "" + result[28] +" " + result[29])
+					except Exception, e:
+						print result
+						print e
+		
+		if type(results_openvas) == list:
+			results_openvas = ''
+		if type(results_appR) == list:
+			results_appR = ''
+
 		print "\n"
-		print "                        << <$$> Shuriken <$$> >> "
-		print "                                 "
-		print "                               0 : Exit"
-		print "                               1 : Info"
-		print "                               2 : File result"
-		print "                               3 : Net.security WebApp"
-		print "                               4 : Crawling proces"
-		print "                               5 : Independent tools"
-		print "                               6 : OpenVas"
+		print "        << <$$> "+Menu_shuriken_text+" <$$> >>                         -- -- "+Menu_proceses_text+" -- --"
+		print "                                             |"
+		print "              0 : "+Exit_text+"                       |"
+		print "              1 : "+info_text+"                       |         " + results_openvas
+		print "              2 : "+File_result_text+"                |"
+		print "              3 : "+Netsecurity_text+"        |         " + results_appR
+		print "              4 : "+Crawling_proces_text+"            |"
+		print "              5 : "+independent_tools_text+"          |"
+		print "              6 : "+OpenVas_text+"                    |"
+		print "              7 : "+kill_text+"      |"
 		print "\n"
 		try:
-			inp = raw_input('[$ shuriken $] > ')
+			inp = raw_input('[$ ' + shuriken_text + ' $] > ')
 			n = str(inp)
-			if '0' in n or '1' in n or '2' in n or '3' in n or '4' in n or '5' in n or '6' in n:
+			if '0' in n or '1' in n or '2' in n or '3' in n or '4' in n or '5' in n or '6' in n or '7' in n:
 				options[n]()
 			else:
-				print('[$ shuriken $] Is not recognized as a valid command')
+				print('[$ ' + shuriken_text + ' $] Is not recognized as a valid command')
 				main()
 		except KeyboardInterrupt:
 			print "Stopping Shuriken"
@@ -117,24 +200,37 @@ def gass():
 	print "\n"
 
 if __name__ == "__main__":
-	print "==========================================================================="
+	title_text1 = colored('   ▄████████    ▄█    █▄    ███    █▄     ▄████████  ▄█     ▄█   ▄█▄    ▄████████ ███▄▄▄▄   ','red')
+	title_text2 = colored('  ███    ███   ███    ███   ███    ███   ███    ███ ███    ███ ▄███▀   ███    ███ ███▀▀▀██▄ ','red')
+	title_text3 = colored('  ███    █▀    ███    ███   ███    ███   ███    ███ ███▌   ███▐██▀     ███    █▀  ███   ███ ','red')
+	title_text4 = colored('  ███         ▄███▄▄▄▄███▄▄ ███    ███  ▄███▄▄▄▄██▀ ███▌  ▄█████▀     ▄███▄▄▄     ███   ███ ','red')
+	title_text5 = colored('▀███████████ ▀▀███▀▀▀▀███▀  ███    ███ ▀▀███▀▀▀▀▀   ███▌ ▀▀█████▄    ▀▀███▀▀▀     ███   ███ ','red')
+	title_text6 = colored('         ███   ███    ███   ███    ███ ▀███████████ ███    ███▐██▄     ███    █▄  ███   ███ ','red')
+	title_text7 = colored('   ▄█    ███   ███    ███   ███    ███   ███    ███ ███    ███ ▀███▄   ███    ███ ███   ███ ','red')
+	title_text8 = colored(' ▄████████▀    ███    █▀    ████████▀    ███    ███ █▀     ███   ▀█▀   ██████████  ▀█   █▀  ','red')
+
+	doct_text = colored('.','red')
+	star_text = colored('*','red')
+	dolar_text = colored('$','red')
+
+	
 	print ""
-	print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-	print " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-	print "  $$$$$$$$   _____ _   _ _   _______ _____ _   __ _____ _   _   $$$$$$$$"
-	print "   $$$$$$$  /  ___| | | | | | | ___ \_   _| | / /|  ___| \ | |  $$$$$$$"
-	print "    $$$$$$  \ `--.| |_| | | | | |_/ / | | | |/ / | |__ |  \| |  $$$$$$"
-	print "     $$$$$   `--. \  _  | | | |    /  | | |    \ |  __|| . ` |  $$$$$"
-	print "      $$$$  /\__/ / | | | |_| | |\ \ _| |_| |\  \| |___| |\  |  $$$$"
-	print "       $$$  \____/\_| |_/\___/\_| \_|\___/\_| \_/\____/\_| \_/  $$$"
-	print "        $$                                                      $$"
-	print "         $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-	print "          $$$$$  $$$$$  $$$$$  $$$$$  $$$$$  $$$$$  $$$$$  $$$$$"
-	print "           $$$    $$$    $$$    $$$    $$$    $$$    $$$    $$$"
+	print ""+title_text1
+	print ""+title_text2
+	print ""+title_text3
+	print ""+title_text4
+	print ""+title_text5
+	print ""+title_text6
+	print ""+title_text7
+	print ""+title_text8
+	print "  "
+	print "  "
+	#print "          $"+dolar_text+"$"+dolar_text+"$  $"+dolar_text+"$"+dolar_text+"$  $"+dolar_text+"$"+dolar_text+"$  $"+dolar_text+"$"+dolar_text+"$  $"+dolar_text+"$"+dolar_text+"$  $"+dolar_text+"$"+dolar_text+"$  $"+dolar_text+"$"+dolar_text+"$  $"+dolar_text+"$"+dolar_text+"$"
+	#print "           $"+dolar_text+"$    $"+dolar_text+"$    $"+dolar_text+"$    $"+dolar_text+"$    $"+dolar_text+"$    $"+dolar_text+"$    $"+dolar_text+"$    $"+dolar_text+"$"
 	print "            $      $      $      $      $      $      $      $"
+	print "            "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text
 	print "            *      *      *      *      *      *      *      *"
-	print "            *      *      *      *      *      *      *      *"
-	print "            *      *      *      *      *      *      *      *"
-	print "            *      *      *      *      *      *      *      *"
-	print "            .      .      .      .      .      .      .      ."
+	print "            "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text
+	print "            "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text+"      "+star_text
+	print "            "+doct_text+"      "+doct_text+"      "+doct_text+"      "+doct_text+"      "+doct_text+"      "+doct_text+"      "+doct_text+"      "+doct_text
 	main()
