@@ -8,6 +8,12 @@ MachingOpenvasCVEs_inCVEsDF <- function (){
   return(openCVE_filter)
 }
 
+# List of dataframes Cves maching
+Maching_WhitValue_OpenvasCVEs_inCVEsDF <- function (cve_dataframe){
+  openCVE_filter <- inner_join(cves_Shiny, cve_dataframe, by = "cve")
+  return(openCVE_filter)
+}
+
 
 #-------------------------------------------------------------------------------------
 

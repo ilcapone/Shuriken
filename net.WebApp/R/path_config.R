@@ -21,3 +21,6 @@ geoIP_crawlerIP_path <- paste(data_path, "/geoIP_crawlerIP.csv", sep = "")
 nikto_crawler_links_path <- paste(data_path, "/nikto_crawler_links.csv", sep = "")
 nmap_crawler_path <- paste(data_path, "/nmap_crawler.csv", sep = "")
 openvas_path <- paste(data_path, "/openvas_data.xml", sep = "")
+
+# Path of openvas data files
+openvas_filesData_path <- paste(data_path, "/openvas", sep = "")

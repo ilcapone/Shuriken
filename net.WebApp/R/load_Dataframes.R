@@ -1,3 +1,7 @@
+#-------------------------------------------------------------------------------------
+
+######## LOAD OPENVAS DATAFRAME ######
+
 #extract dataframe from openvass.xml
 #example scrapyData <- GetScrapyLinksDataframe()
 GetOpenVasDataframe <- function (){
@@ -12,6 +16,39 @@ GetOpenVasDataframe <- function (){
   opvCvesDF %>% mutate_if(is.factor, as.character) -> opvCvesDF
   return(opvCvesDF)
 }
+
+GetOpenVas_List_DataFrame <- function ()
+{
+  openvas <- list.files(path = openvas_filesData_path)
+  list_openvas <- list()
+  print(length(openvas))
+  i = 1
+  while(i<=length(openvas))
+  {
+    path <- paste(openvas_filesData_path, openvas[i], sep="/")
+    print(path)
+    list_openvas[[i]] <- Singlr_OpenVasDataframe(path)
+    i = i + 1
+  }
+  return(list_openvas)
+}
+
+Singlr_OpenVasDataframe <- function (openvas_singleFile_path){
+  #openvas_path <- "D:/CYBERSECURITY MANAGMENT (Master)/CyS/TFM/ShurikenRepository/data/netSecurity_data/openvas_data.xml"
+  opv <- xmlParse(openvas_singleFile_path)
+  nodeCve <- xmlRoot(opv)
+  opv_cves <- xpathSApply(nodeCve, "//cve", xmlValue)
+  opv_cves <- opv_cves[opv_cves !=  "NOCVE"]
+  opv_cves_DF <- data.frame(opv_cves, stringsAsFactors=FALSE)
+  cleanColums <- strsplit(opv_cves_DF$opv_cves, split = ", ")
+  opvCvesDF <- data.frame(cve=unlist(cleanColums))
+  opvCvesDF %>% mutate_if(is.factor, as.character) -> opvCvesDF
+  return(opvCvesDF)
+}
+
+#-------------------------------------------------------------------------------------
+
+######## LOAD CRAWLER DATAFRAME ######
 
 #extract dataframe from crawler_links.cvs
 #example scrapyData <- GetScrapyLinksDataframe() 

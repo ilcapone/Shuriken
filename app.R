@@ -59,6 +59,9 @@ ui <- dashboardPage(
       # Third tab content
       tabItem(tabName = "openvas",
               fluidRow(
+                  tags$iframe(src="https://railayswim.com/index.php/who-we-are/"),
+                  htmlOutput("frame_Openvas"),
+                  htmlOutput("test_Openvas")
               )
       ),
       
@@ -245,6 +248,18 @@ server <- function(input, output, session) {
     valueBox( np, "Nmap", icon = icon("list"),
               color = "red"
     )
+  })
+  
+  output$frame_Openvas <- renderUI({
+    test <- "https://railayswim.com/index.php/who-we-are/"
+    my_test <- tags$iframe(src=test)
+    print(my_test)
+    my_test
+  })
+  
+  output$test_Openvas <- renderUI({
+    e <- '<iframe id="app" src="https://railayswim.com/index.php/who-we-are/" width="100%"></iframe>'
+    HTML(e)
   })
   
 }
