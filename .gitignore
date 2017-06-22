@@ -19,3 +19,5 @@ data/single_data/wig/hotelcharlejaca/Vuls_wig.txt
 data/single_data/wig/onlythejuice/Vuls_wig.txt
 data/netSecurity_data/openvas_data.xml
 openvas/omp.config
+data/netSecurity_data/openvas/openvas_data_LuCI.xml
+data/netSecurity_data/openvas/openvas_data_metasploit.xml
