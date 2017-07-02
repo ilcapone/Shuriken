@@ -15,21 +15,12 @@ ui <- dashboardPage(
       menuItem("Crawler", tabName = "scan", icon = icon("free-code-camp")),
       menuItem("OpenVAS", tabName = "openvas", icon = icon("eye")),
       menuItem("GeoIP", tabName = "geoip", icon = icon("bar-chart")),
-      menuItem("CVES", tabName = "searchVuls", icon = icon("bolt")),
-      menuItem("Resum", tabName = "resum", icon = icon("thermometer-half"))
+      menuItem("CVES", tabName = "searchVuls", icon = icon("bolt"))
     )
     
   ),
   dashboardBody(
     tabItems(
-      # First tab content
-      tabItem(tabName = "resum",
-              fluidRow(
-                box(plotOutput("numverofvuls", height = 1000),
-                    width = 12)
-              )  
-      ),
-      
       # Second tab content
       tabItem(tabName = "scan",
               fluidRow(
@@ -47,7 +38,13 @@ ui <- dashboardPage(
               h2("Nmap results"),
               dataTableOutput("nmap_vulneravilitis"),
               h2("Nikto results"),
-              dataTableOutput("nikto_vulneravilitis")
+              dataTableOutput("nikto_vulneravilitis"),
+              h2("Number of vulneravilities per web"),
+              fluidRow(
+                box(plotOutput("numverofvuls", height = 1000),
+                    width = 12)
+              )
+              
       ),
       
       # Third tab content
@@ -59,10 +56,11 @@ ui <- dashboardPage(
       # Third tab content
       tabItem(tabName = "openvas",
               fluidRow(
-                  tags$iframe(src="https://railayswim.com/index.php/who-we-are/"),
-                  htmlOutput("frame_Openvas"),
-                  htmlOutput("test_Openvas")
-              )
+                valueBoxOutput("TotalOpenVas_Hosts"),
+                valueBoxOutput("TotalOpenVas_CVEs")
+              ),
+              uiOutput("openvas_tabs")
+              
       ),
       
       
@@ -250,17 +248,55 @@ server <- function(input, output, session) {
     )
   })
   
-  output$frame_Openvas <- renderUI({
-    test <- "https://railayswim.com/index.php/who-we-are/"
-    my_test <- tags$iframe(src=test)
-    print(my_test)
-    my_test
+  #Number of OpenVas Host Scaned
+  output$TotalOpenVas_Hosts <- renderInfoBox({
+    np <- Number_of_OpenVas_Host()
+    valueBox( np, "OpenVas Hosts", icon = icon("list"),
+              color = "red"
+    )
   })
   
-  output$test_Openvas <- renderUI({
-    e <- '<iframe id="app" src="https://railayswim.com/index.php/who-we-are/" width="100%"></iframe>'
-    HTML(e)
+  #Number of OpenVas Host Scaned
+  output$TotalOpenVas_CVEs <- renderInfoBox({
+    np <- Number_of_OpenVas_Tota_CVEs()
+    valueBox( np, "Total of CVEs", icon = icon("list"),
+              color = "red"
+    )
   })
+  
+  #Openvas tabs
+  output$openvas_tabs=renderUI({
+    
+    myTabs = lapply(openvas_list, function(opnV) {
+      tabPanel(
+        title = opnV$host_name,
+        dataTableOutput(as.character(opnV$host_name[1]))
+      )
+    })
+    do.call(tabsetPanel, myTabs)
+  })
+  
+  # create datatables
+  observe(
+    lapply(openvas_list, function(opnV) {
+      output[[opnV$host_name[1]]] <- renderDataTable({
+        as.data.frame(opnV)
+      })
+    })  
+  ) 
+
+  
+  #output$frame_Openvas <- renderUI({
+  #  test <- "https://railayswim.com/index.php/who-we-are/"
+  #  my_test <- tags$iframe(src=test)
+  #  print(my_test)
+  #  my_test
+  #})
+  
+  #output$test_Openvas <- renderUI({
+  #  e <- '<iframe id="app" src="https://railayswim.com/index.php/who-we-are/" width="100%"></iframe>'
+  #  HTML(e)
+  #})
   
 }
 

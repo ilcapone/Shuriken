@@ -14,6 +14,32 @@ Maching_WhitValue_OpenvasCVEs_inCVEsDF <- function (cve_dataframe){
   return(openCVE_filter)
 }
 
+# Total numeber of host scaned
+Number_of_OpenVas_Host <- function(){
+  OpenVasHost_list <- ListOfHost()
+  n <- length(OpenVasHost_list)
+  return(n)
+}
+
+# Total number of cves extracted
+Number_of_OpenVas_Tota_CVEs <- function(){
+  i = 1
+  totalCVEs = 0
+  while (i <= length(openvas_list)){
+    n <- nrow(openvas_list[[i]])
+    print(n)
+    if (n == 1){
+      if (is.null(openvas_list[[i]]$cve)){
+        n = 0
+      }
+    }
+    totalCVEs = totalCVEs + n
+    i = i + 1
+  }
+  
+  return(totalCVEs)
+}
+
 
 #-------------------------------------------------------------------------------------
 

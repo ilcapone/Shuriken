@@ -17,24 +17,25 @@ GetOpenVasDataframe <- function (){
   return(opvCvesDF)
 }
 
-GetOpenVas_List_DataFrame <- function ()
-{
+GetOpenVas_List_DataFrame <- function (){
+  #openvas_filesData_path <- "D:/CYBERSECURITY MANAGMENT (Master)/CyS/TFM/ShurikenRepository/data/netSecurity_data/openvas"
   openvas <- list.files(path = openvas_filesData_path)
   list_openvas <- list()
-  print(length(openvas))
+  #print(length(openvas))
   i = 1
   while(i<=length(openvas))
   {
     path <- paste(openvas_filesData_path, openvas[i], sep="/")
-    print(path)
-    list_openvas[[i]] <- Singlr_OpenVasDataframe(path)
+    #print(openvas[i])
+    #print(path)
+    list_openvas[[i]] <- Single_OpenVasDataframe(path, openvas[i])
     i = i + 1
   }
   return(list_openvas)
 }
 
-Singlr_OpenVasDataframe <- function (openvas_singleFile_path){
-  #openvas_path <- "D:/CYBERSECURITY MANAGMENT (Master)/CyS/TFM/ShurikenRepository/data/netSecurity_data/openvas_data.xml"
+Single_OpenVasDataframe <- function (openvas_singleFile_path, nameHost){
+  #openvas_singleFile_path <- "D:/CYBERSECURITY MANAGMENT (Master)/CyS/TFM/ShurikenRepository/data/netSecurity_data/openvas/openvas_data.xml"
   opv <- xmlParse(openvas_singleFile_path)
   nodeCve <- xmlRoot(opv)
   opv_cves <- xpathSApply(nodeCve, "//cve", xmlValue)
@@ -43,7 +44,43 @@ Singlr_OpenVasDataframe <- function (openvas_singleFile_path){
   cleanColums <- strsplit(opv_cves_DF$opv_cves, split = ", ")
   opvCvesDF <- data.frame(cve=unlist(cleanColums))
   opvCvesDF %>% mutate_if(is.factor, as.character) -> opvCvesDF
-  return(opvCvesDF)
+  
+  #check if dataframe have some cve
+  check <- is.data.frame(opvCvesDF) && nrow(opvCvesDF)==0
+  if (check == FALSE){
+    # the data frame have cves
+    #adding host to dataframe
+    opv_host <- xpathSApply(nodeCve, "//host", xmlValue)
+    opv_host_DF <- data.frame(opv_host, stringsAsFactors=FALSE)
+    host_ip <- opv_host_DF$opv_host[2]
+    opvDF <- cbind(host =host_ip, opvCvesDF)
+  }
+  else{
+    # the data frame dont have cves
+    opv_host <- xpathSApply(nodeCve, "//host", xmlValue)
+    opv_host <- opv_host[2]
+    opvDF <- data.frame(opv_host, stringsAsFactors=FALSE)
+    opvDF <- subset(opvDF, nchar(opv_host) < 15)
+  }
+  
+  #Adding the host name
+  nameHost <- strsplit(nameHost, ".xml")
+  nameHost <- strsplit(nameHost[[1]], "_")
+  opvDF <- cbind(host_name = nameHost[[1]][3], opvDF)
+  opvDF %>% mutate_if(is.factor, as.character) -> opvDF
+  opvDF <-opvDF[complete.cases(opvDF), ]
+  
+  return(opvDF)
+}
+
+ListOfHost <- function(){
+  list_openvas_names <- list()
+  i = 1
+  while(i <= length(openvas_list)){
+    list_openvas_names[i] <-  openvas_list[[i]]$host_name[1]
+    i = i + 1
+  }
+  return(list_openvas_names)
 }
 
 #-------------------------------------------------------------------------------------

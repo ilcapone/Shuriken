@@ -26,8 +26,8 @@ geoIP <- GetGeoIPDataframe()
 print("[$ shuriken $] Load geoIP_crawlerIP.csv in geoIP dataframe")
 
 #extract dataframe from xml openvas
-openvas <- GetOpenVasDataframe()
-print("[$ shuriken $] Load openvas_data.xml in openvas dataframe")
+openvas_list <- GetOpenVas_List_DataFrame()
+print("[$ shuriken $] Load openvas files in openvas dataframe")
 
 print("[$ shuriken $] Curren functions: ")
 print("[$ shuriken $]                  * GetVulneravilityNikto_fromUrlDataframe('url')")
@@ -44,4 +44,4 @@ print("[$ shuriken $] - crawlerlinks")
 print("[$ shuriken $] - niktovuls")
 print("[$ shuriken $] - nmapscan")
 print("[$ shuriken $] - geoIP")
-print("[$ shuriken $] - openvas")
+print("[$ shuriken $] - openvas_list")
