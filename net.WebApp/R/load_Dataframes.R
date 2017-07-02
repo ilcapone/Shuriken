@@ -21,13 +21,10 @@ GetOpenVas_List_DataFrame <- function (){
   #openvas_filesData_path <- "D:/CYBERSECURITY MANAGMENT (Master)/CyS/TFM/ShurikenRepository/data/netSecurity_data/openvas"
   openvas <- list.files(path = openvas_filesData_path)
   list_openvas <- list()
-  #print(length(openvas))
   i = 1
   while(i<=length(openvas))
   {
     path <- paste(openvas_filesData_path, openvas[i], sep="/")
-    #print(openvas[i])
-    #print(path)
     list_openvas[[i]] <- Single_OpenVasDataframe(path, openvas[i])
     i = i + 1
   }
@@ -73,6 +70,7 @@ Single_OpenVasDataframe <- function (openvas_singleFile_path, nameHost){
   return(opvDF)
 }
 
+# List with the escaner hosts
 ListOfHost <- function(){
   list_openvas_names <- list()
   i = 1
@@ -149,5 +147,6 @@ GetGeoIPDataframe <- function (){
   GeoData %>% mutate_if(is.factor, as.character) -> GeoData
   GeoData <- filter(GeoData, city != "city")
   GeoData <- transform(GeoData, longitude = as.numeric(longitude), latitude = as.numeric(latitude))
+  GeoData <- select(GeoData, ip, longitude, latitude)
   return(GeoData)
 }

@@ -186,7 +186,7 @@ server <- function(input, output, session) {
   output$geoip_map <- renderLeaflet({
     m <- leaflet(geoIP) %>%
       addTiles() %>%  # Add default OpenStreetMap map tiles
-      addMarkers(~longitude, ~latitude, popup=paste("<a>",geoIP$ip,"</a>") , icon = ~serverIcons["normal"])
+      addMarkers(~longitude, ~latitude, popup=paste(paste("<p> Url: ",geoIP$url,"</p>"), paste("<p> IP: ",geoIP$ip,"</p>"), paste("<p> Nikto Vuls:",geoIP$niktoVuls,"</p>")) , icon = ~serverIcons["normal"])
     m
   }) 
   

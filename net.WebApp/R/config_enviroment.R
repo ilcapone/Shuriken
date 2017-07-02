@@ -23,6 +23,7 @@ print("[$ shuriken $] Load nikto_crawler_links.csv in niktovuls dataframe")
 nmapscan <- GetNmapScanIpDataframe()
 print("[$ shuriken $] Load nmap_crawler.csv in nmapscan dataframe")
 geoIP <- GetGeoIPDataframe()
+geoIP <- Maping_GeoIP_and_Nikto()
 print("[$ shuriken $] Load geoIP_crawlerIP.csv in geoIP dataframe")
 
 #extract dataframe from xml openvas
