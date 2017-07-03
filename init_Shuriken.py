@@ -138,9 +138,13 @@ def main():
 				result = result.split(' ')
 				try:
 					results_openvas = str("PID > " + result[6] + "   Process > " + result[28])
-				except Exception, e:
-					print result
-					print e
+				except:
+					try:
+						results_appR = str("PID > " + result[6] + "   Process > " + result[27
+							])
+					except Exception, e:
+						print result
+						print e
 
 		results_appR = subprocess.check_output("ps aux | grep app.R", shell=True)
 		results_appR = results_appR.split('\n')
