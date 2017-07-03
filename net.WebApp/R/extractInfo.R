@@ -2,30 +2,100 @@
 
 ######## FUNCTIONS FOR OPENVAS EXTRACT INFO #######
 
-# Cves maching
-MachingOpenvasCVEs_inCVEsDF <- function (){
-  openCVE_filter <- inner_join(cves_Shiny, openvas, by = "cve")
-  return(openCVE_filter)
+# Cves maching in openVasDF with net.security_cves_DF
+Maching_all_OpenvasCVEs_inCVEsDF <- function (){
+  list_openvas_cves_net_security <- list()
+  i = 1
+  while(i <= length(openvas_list)){
+    list_openvas_cves_net_security[[i]] <- Maching_WhitValue_OpenvasCVEs_inCVEsDF(openvas_list[i])
+    i = i + 1
+  }
+  return(list_openvas_cves_net_security)
 }
 
 # List of dataframes Cves maching
-Maching_WhitValue_OpenvasCVEs_inCVEsDF <- function (cve_dataframe){
-  openCVE_filter <- inner_join(cves_Shiny, cve_dataframe, by = "cve")
+Maching_WhitValue_OpenvasCVEs_inCVEsDF <- function (openvas_cve_dataframe){
+  print(openvas_cve_dataframe)
+  if (!is.null(openvas_cve_dataframe$cve))
+  {
+    openCVE_filter <- inner_join(cves, openvas_cve_dataframe, by = "cve")
+  }
+  else
+  {
+    openCVE_filter <- data.frame()
+  }
   return(openCVE_filter)
+}
+
+# Total numeber of host scaned
+Number_of_OpenVas_Host <- function(){
+  OpenVasHost_list <- ListOfHost()
+  n <- length(OpenVasHost_list)
+  return(n)
+}
+
+# Total number of cves extracted
+Number_of_OpenVas_Tota_CVEs <- function(){
+  i = 1
+  totalCVEs = 0
+  while (i <= length(openvas_list)){
+    n <- nrow(openvas_list[[i]])
+    if (n == 1){
+      if (is.null(openvas_list[[i]]$cve)){
+        n = 0
+      }
+    }
+    totalCVEs = totalCVEs + n
+    i = i + 1
+  }
+  return(totalCVEs)
 }
 
 
 #-------------------------------------------------------------------------------------
 
 ######## FUNCTIONS FOR CRAWLER EXTRACT INFO #######
+
+
+#Total number of nikto results
 Number_of_Nikto_Scans <- function(){
   n <- nrow(niktovuls)
   return(n)
 }
-
+#Total number of nmap scaned
 Number_of_Nmap_Scans <- function(){
   n <- nrow(nmapscan)
   return(n)
+}
+
+# GeoIP maping with Nikto
+Maping_GeoIP_and_Nikto <- function(){
+  geoIP["niktoVuls"] <- NA
+  geoIP["url"] <- NA
+  i = 1
+  while (i <= nrow(geoIP)){
+    geoIP$niktoVuls[i] <- GetVulneravilityNikto_from_IP_Dataframe(geoIP$ip[i])
+    geoIP$url[i] <- Get_UrlWeb_from_IP(geoIP$ip[i])
+    i = i + 1
+  }
+  return(geoIP)
+}
+
+# Extract the url from de ip in kinto dataframe
+Get_UrlWeb_from_IP <- function(geo_ip){
+  geo_ip <- as.character(geo_ip)
+  NiktoData <- filter(niktovuls, ip == geo_ip)
+  web <- NiktoData$url[1]
+  return(web)
+  
+}
+
+#extract the number of vuls from ip
+GetVulneravilityNikto_from_IP_Dataframe <- function (geo_ip){
+  geo_ip <- as.character(geo_ip)
+  VulsData_numer_vuls <- filter(niktovuls, ip == geo_ip)
+  numerOfVuls <- nrow(VulsData_numer_vuls)
+  return(numerOfVuls)
 }
 
 # extract only de infoVuls nikcto from concret url

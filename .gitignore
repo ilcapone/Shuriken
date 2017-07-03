@@ -21,3 +21,5 @@ data/netSecurity_data/openvas_data.xml
 openvas/omp.config
 data/netSecurity_data/openvas/openvas_data_LuCI.xml
 data/netSecurity_data/openvas/openvas_data_metasploit.xml
+data/netSecurity_data/openvas/openvas_data_dlink.xml
+data/netSecurity_data/openvas/openvas_data_sakalaka.xml
