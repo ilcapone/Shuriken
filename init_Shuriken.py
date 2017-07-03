@@ -158,9 +158,12 @@ def main():
 				except:
 					try:
 						results_appR = str("PID > " + result[6] + "   Process > " + result[24] + "" + result[27] + "" + result[28] +" " + result[29])
-					except Exception, e:
-						print result
-						print e
+					except:
+						try:
+							results_appR = str("PID > " + result[6] + "   Process > " + result[23] + "" + result[26] + "" + result[27] +" " + result[28])
+						except Exception, e:
+							print result
+							print e
 		
 		if type(results_openvas) == list:
 			results_openvas = ''
