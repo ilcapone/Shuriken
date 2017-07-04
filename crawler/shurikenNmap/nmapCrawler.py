@@ -14,6 +14,7 @@ proxy_check=None
 
 #Global parameters for crawler proces storage
 crawlerProces_Parameters = dict()
+csvwriter_nmapCrawler = ''
 
 def define_crawlerProces_Parameters(parameters):
     global crawlerProces_Parameters
@@ -82,6 +83,7 @@ def crawler_nmap_controller():
 	print "[$ nmap $] Start crawler nmap module"
 	print "[$ nmap $] Open nikto_crawler_links.csv"
 	nmap_data_path = nmap_storage + crawlerProces_Parameters.get('folder') +"/nmap_crawler.csv"
+	print "[$ nmap $] Nmap storage: " + nmap_data_path
 	global csvwriter_nmapCrawler
 	csvwriter_nmapCrawler = open(nmap_data_path, "w")
 	fName= nikto_storage + crawlerProces_Parameters.get('folder') + "/nikto_crawler_links.csv"
@@ -132,5 +134,6 @@ def evade_ids_crwler_controller(current_ip):
 		nm.scan(ip, portRank, arguments = args)
 	print nm.csv()
 	global csvwriter_nmapCrawler
+	print "[$ nmap $]" + csvwriter_nmapCrawler
 	csvwriter_nmapCrawler.write(nm.csv())
 	print "[$ nmap $] End scan"
