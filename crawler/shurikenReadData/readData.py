@@ -33,7 +33,15 @@ def viewFiles():
 		if '__init__.py' in file or '__init__.pyc' in file or 'readData.py' in file or 'readData.pyc' in file:
 			i=0
 		else:
-			print file
+			if '.csv' in file:
+				print file
+			else:
+				files_subfolder = os.listdir(crawler_path + "/" + file)
+				subfoler = colored('Subfoler > ' + file,'yellow')
+				print(subfoler)
+				for fl in files_subfolder:
+					print "--- " + fl
+
 	print "\n"
 	print "[$ "+fileResult_text+" $] Current result directory: " + netSecurity_path
 	files = os.listdir(netSecurity_path)
@@ -42,7 +50,14 @@ def viewFiles():
 		if '__init__.py' in file or '__init__.pyc' in file or 'readData.py' in file or 'readData.pyc' in file:
 			i=0
 		else:
-			print file
+			if '.csv' in file:
+				print file
+			else:
+				files_subfolder = os.listdir(netSecurity_path + "/" + file)
+				subfoler = colored('Subfoler > ' + file,'yellow')
+				print(subfoler)
+				for fl in files_subfolder:
+					print "--- " + fl
 	print "\n"
 	print "[$ "+fileResult_text+" $] Current result directory: " + openvas_path
 	files = os.listdir(openvas_path)

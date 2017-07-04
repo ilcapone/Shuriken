@@ -14,8 +14,17 @@ geo_ip_list = []
 shuriken_path = os.getcwd()
 dictionary = shuriken_path + "/crawler/shurikenGeoIP/GeoLiteCity.dat"
 data_crawler = shuriken_path + "/data/crawler_data/geoIP_crawlerIP.csv"
+geoIP_storage = shuriken_path + "/data/crawler_data/"
 nikto_data = shuriken_path + "/data/crawler_data/nikto_crawler_links.csv"
+nikto_storage = shuriken_path + "/data/crawler_data/"
 data_single = shuriken_path + "/data/single_data"
+
+# Global parameters for crawler proces storage
+crawlerProces_Parameters = dict()
+
+def define_crawlerProces_Parameters(parameters):
+    global crawlerProces_Parameters
+    crawlerProces_Parameters = parameters
 
 def back():
 	print "[$ geo-ip $] Back main menu \n"
@@ -37,7 +46,7 @@ def specific_IP():
 def crawler_IP():
 	print "[$ geo-ip $] Crawler"
 	print "[$ geo-ip $] Open nikto_crawler_links.csv"
-	fName = nikto_data
+	fName = nikto_storage + crawlerProces_Parameters.get('folder') + "/nikto_crawler_links.csv"
 	firstWrite = True
 	if os.path.exists(fName):
 		with open(fName, 'rU') as f:
@@ -81,7 +90,8 @@ def launch_geoIP_crawler(ip):
 def write_geoIP_crawler():
 	print geo_ip_list
 	first = True
-	with open(data_crawler, 'a') as f:
+	data_storage = geoIP_storage + crawlerProces_Parameters.get('folder') + "/geoIP_crawlerIP.csv"
+	with open(data_storage, 'a') as f:
 		for gIP in geo_ip_list:
 			if first:
 				w = csv.DictWriter(f, gIP.keys())
@@ -92,13 +102,13 @@ def write_geoIP_crawler():
 				if gIP is not None:
 					w.writerow(gIP)
 
-options = {'0':specific_IP,'1':crawler_IP, '2':back}
+options = {'0':back, '1':specific_IP,'2':crawler_IP}
 
 def main():
 	print "                       - geoIP Options -"
-	print "               0 : Specific geoIP"
-	print "               1 : Crawler geoIP"
-	print "               2 : Back"
+	print "               0 : Back"
+	print "               1 : Specific geoIP"
+	print "               2 : Crawler geoIP"
 	print "\n"
 	n = raw_input('[$ geo-ip $] > ')
 	options[n]()

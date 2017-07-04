@@ -7,8 +7,18 @@ ip_list=['init']
 shuriken_path = os.getcwd()
 data = shuriken_path + "/data/crawler_data/nmap_crawler.csv"
 nikto_data = shuriken_path + "/data/crawler_data/nikto_crawler_links.csv"
+nikto_storage = shuriken_path + "/data/crawler_data/"
+nmap_storage= shuriken_path + "/data/crawler_data/"
 csvwriter = open(data, "w")
 proxy_check=None
+
+#Global parameters for crawler proces storage
+crawlerProces_Parameters = dict()
+
+def define_crawlerProces_Parameters(parameters):
+    global crawlerProces_Parameters
+    crawlerProces_Parameters = parameters
+    global csvwriter_nmapCrawler
 
 def set_proxy_check():
     global proxy_check
@@ -71,7 +81,10 @@ def crawler_nmap_controller():
 	set_proxy_check()
 	print "[$ nmap $] Start crawler nmap module"
 	print "[$ nmap $] Open nikto_crawler_links.csv"
-	fName= nikto_data
+	nmap_data_path = nmap_storage + crawlerProces_Parameters.get('folder') +"/nmap_crawler.csv"
+	global csvwriter_nmapCrawler
+	csvwriter_nmapCrawler = open(nmap_data_path, "w")
+	fName= nikto_storage + crawlerProces_Parameters.get('folder') + "/nikto_crawler_links.csv"
 	if os.path.exists(fName):
 		with open(fName, 'rU') as f:
 			try:
@@ -118,5 +131,6 @@ def evade_ids_crwler_controller(current_ip):
 		print "[$ nmap $] arguments : " + args
 		nm.scan(ip, portRank, arguments = args)
 	print nm.csv()
-	csvwriter.write(nm.csv())
+	global csvwriter_nmapCrawler
+	csvwriter_nmapCrawler.write(nm.csv())
 	print "[$ nmap $] End scan"
