@@ -41,6 +41,21 @@ kill_text = colored('Kill active processes','blue')
 Menu_shuriken_text = colored('Shuriken','red')
 Menu_proceses_text = colored('Active Processes','red')
 
+# Global parameters for crawler proces storage
+crawlerProces_Parameters = dict()
+
+def define_crawlerProces_Parameters(folder, useproxy, proxyIP, usenmap):
+	global crawlerProces_Parameters
+	crawlerProces_Parameters['folder'] = folder
+	crawlerProces_Parameters['useproxy'] = useproxy
+	crawlerProces_Parameters['proxyIP'] = proxyIP
+	crawlerModule.define_crawlerProces_Parameters(crawlerProces_Parameters)
+	niktoModule.define_crawlerProces_Parameters(crawlerProces_Parameters)
+	localice.define_crawlerProces_Parameters(crawlerProces_Parameters)
+	if 'y' in usenmap:
+		nmapCrawler.define_crawlerProces_Parameters(crawlerProces_Parameters)
+
+
 def info():
 	print "\n"
 	print "[$ "+shuriken_text+" $] Shuriken is PoC for a final master's work in cybersecurity, for knowlements. Use this tool with caution and do not use it for malicious purposes. The author is not responsible for any damages caused by third parties"
@@ -85,15 +100,24 @@ def independent_tools():
 
 def crawler_complet_proces():
 	gass()
+	folder = raw_input('[$ ' + shuriken_text + ' $] Insert name of the crawler storage > ')
+	usenmap = raw_input('[$ ' + shuriken_text + ' $] You want to use nmap? (y/n) > ')
+	useproxy = raw_input('[$ ' + shuriken_text + ' $] You want to use proxy? (y/n) > ')
+	if 'y' in useproxy:
+		proxyIP = raw_input('[$ ' + shuriken_text + ' $] Insert proxy ip and port (IP:PORT) > ')
+	else:
+		proxyIP=None
+	define_crawlerProces_Parameters(folder, useproxy, proxyIP, usenmap)
 	warning = colored('Start complet crawler process ..','yellow')
 	print "[$ "+controller_text+" $] " + warning
 	crawle_start()
 	warning = colored('Start nikto crawler process ..','yellow')
 	print "[$ "+controller_text+" $] " + warning
 	nikto_start_crawler_controller()
-	warning = colored('Start nmap process ..','yellow')
-	print "[$ "+controller_text+" $] " + warning
-	nmapCrawler.crawler_nmap_controller()
+	if 'y' in usenmap and len(usenmap)==1:
+		warning = colored('Start nmap process ..','yellow')
+		print "[$ "+controller_text+" $] " + warning
+		nmapCrawler.crawler_nmap_controller()
 	warning = colored('Start complet geo Ip process ..','yellow')
 	print "[$ "+controller_text+" $] " + warning
 	geolocalizeIP_start_controller()

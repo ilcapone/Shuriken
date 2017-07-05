@@ -32,13 +32,17 @@ class Knef(CrawlSpider):
     def spider_closed(self, spider):
         spider.logger.info('Spider closed: %s', spider.name)
 
-    def __init__(self, startUrl=None, scanTime=None, *args, **kwargs):
+    def __init__(self, startUrl=None, scanTime=None, proxy=None, *args, **kwargs):
         super(Knef, self).__init__(*args, **kwargs)
         print "[$ crawler $] Start URL : " + startUrl
         self.start_urls = [startUrl]
         self.scan_time = scanTime
         self.i=0
         self.init_time = time.time()
+        if proxy is not None:
+            self.meta = {'proxy': proxy}
+        else:
+            self.meta = None
 
     rules = (Rule(LinkExtractor(allow=(), deny_domains=(
         'google.es',
@@ -101,12 +105,17 @@ def start_Crawler():
     global urls_Extractor
     urls_Extractor = []
 
-    process.crawl(Knef, startUrl = starturl, scanTime = scanTime)
+    process.crawl(Knef, startUrl = starturl, scanTime = scanTime, proxy = crawlerProces_Parameters.get('proxyIP'))
     process.start()
     first = True
-    data_crawler = os.getcwd() + "/data/crawler_data/crawler_links.csv"
+    data_crawler_path = os.getcwd() + "/data/crawler_data/"+crawlerProces_Parameters.get('folder')
+    data_crawler = os.getcwd() + "/data/crawler_data/"+crawlerProces_Parameters.get('folder')+"/crawler_links.csv"
     if os.path.exists(data_crawler):
         os.remove(data_crawler)
+    if os.path.exists(data_crawler_path):
+        os.remove(data_crawler_path)
+    else:
+        os.makedirs(data_crawler_path)
     with open(data_crawler, 'a') as f:
         for url in urls_Extractor:
             if first:
@@ -121,3 +130,10 @@ def start_Crawler():
                     else:
                         print url
                         w.writerow(url)
+
+# Global parameters for crawler proces storage
+crawlerProces_Parameters = dict()
+
+def define_crawlerProces_Parameters(parameters):
+    global crawlerProces_Parameters
+    crawlerProces_Parameters = parameters

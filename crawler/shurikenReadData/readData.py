@@ -33,7 +33,14 @@ def viewFiles():
 		if '__init__.py' in file or '__init__.pyc' in file or 'readData.py' in file or 'readData.pyc' in file:
 			i=0
 		else:
-			print file
+			if '.csv' in file:
+				print file
+			else:
+				files_subfolder = os.listdir(crawler_path + "/" + file)
+				subfoler = colored('Subfoler > ' + file,'yellow')
+				print(subfoler)
+				for fl in files_subfolder:
+					print "--- " + fl
 	print "\n"
 	print "[$ "+fileResult_text+" $] Current result directory: " + netSecurity_path
 	files = os.listdir(netSecurity_path)
@@ -42,7 +49,14 @@ def viewFiles():
 		if '__init__.py' in file or '__init__.pyc' in file or 'readData.py' in file or 'readData.pyc' in file:
 			i=0
 		else:
-			print file
+			if '.csv' in file:
+				print file
+			else:
+				files_subfolder = os.listdir(netSecurity_path + "/" + file)
+				subfoler = colored('Subfoler > ' + file,'yellow')
+				print(subfoler)
+				for fl in files_subfolder:
+					print "--- " + fl
 	print "\n"
 	print "[$ "+fileResult_text+" $] Current result directory: " + openvas_path
 	files = os.listdir(openvas_path)
@@ -83,14 +97,64 @@ def viewFile():
 	main()
 
 def updateResultsNetSecurity():
-	print('[$ '+fileResult_text+' $] Checking whether crawler files have been created correctly')
-	crawler_links_path = crawler_path + "/crawler_links.csv"
-	nikto_path = crawler_path + "/nikto_crawler_links.csv"
-	nmap_path = crawler_path + "/nmap_crawler.csv"
-	geoIP_path = crawler_path + "/geoIP_crawlerIP.csv"
-	if os.path.exists(crawler_links_path) and os.path.exists(nikto_path) and os.path.exists(nmap_path) and os.path.exists(geoIP_path):
-		print('[$ '+fileResult_text+' $] Checking files has been created correctly!')
-		print('[$ '+fileResult_text+' $] Pass to update netSecurity results folder ... ')
+	selected = raw_input('[$ '+fileResult_text+' $] Load crawler or openvas (0 : Crawler , 1 : Openvas) > ')
+	if '0' in selected:
+		print('[$ '+fileResult_text+' $] Crawler results')
+		files = os.listdir(crawler_path)
+		for file in files:
+			if '__init__.py' in file or '__init__.pyc' in file or 'readData.py' in file or 'readData.pyc' in file:
+				pass
+			else:
+				if '.csv' in file:
+					pass
+				else:
+					files_subfolder = os.listdir(crawler_path + "/" + file)
+					subfoler = colored('Subfoler > ' + file,'yellow')
+					print(subfoler)
+		print "\n"
+		select_result = raw_input('[$ '+fileResult_text+' $] Insert subfolder to loan in Net.Security > ')
+		directory = crawler_path + "/" + str(select_result)
+		if os.path.exists(directory):
+			print('[$ '+fileResult_text+' $] Cleaning Net.Security data ... ')
+			comand = 'rm '+ netSecurity_path + "/crawler_links.csv"
+			subprocess.call(comand, shell=True)
+			comand = 'rm '+ netSecurity_path + "/nikto_crawler_links.csv"
+			subprocess.call(comand, shell=True)
+			comand = 'rm '+ netSecurity_path + "/nmap_crawler.csv"
+			subprocess.call(comand, shell=True)
+			comand = 'rm '+ netSecurity_path + "/geoIP_crawlerIP.csv"
+			subprocess.call(comand, shell=True)
+			print('[$ '+fileResult_text+' $] Loan new content in Net.Security')
+			comand = 'cp '+ directory + "/crawler_links.csv " + netSecurity_path
+			subprocess.call(comand, shell=True)
+			comand = 'cp '+ directory + "/nikto_crawler_links.csv " + netSecurity_path
+			subprocess.call(comand, shell=True)
+			comand = 'cp '+ directory + "/nmap_crawler.csv " + netSecurity_path
+			subprocess.call(comand, shell=True)
+			comand = 'cp '+ directory + "/geoIP_crawlerIP.csv " + netSecurity_path
+			subprocess.call(comand, shell=True)
+		else:
+			print('[$ '+fileResult_text+' $] Subfolder ' + select_result + ' doesnt exist')
+	elif '1' in selected:
+		print('[$ '+fileResult_text+' $] Openvas results')
+		files = os.listdir(openvas_path)
+		for file in files:
+			if '__init__.py' in file or '__init__.pyc' in file or 'readData.py' in file or 'readData.pyc' in file:
+				pass
+			else:
+				print file
+		print "\n"
+		select_result = raw_input('[$ '+fileResult_text+' $] Insert file to loan in Net.Security > ')
+		directory = openvas_path + "/" + str(select_result)
+		if os.path.exists(directory):
+			print('[$ '+fileResult_text+' $] Cleaning Net.Security data ... ')
+			comand = 'rm '+ netSecurity_path + "/openvas/" + select_result
+			subprocess.call(comand, shell=True)
+			comand = 'cp '+ directory + " " + netSecurity_path + "/openvas"
+			subprocess.call(comand, shell=True)
+		else:
+			print('[$ '+fileResult_text+' $] File ' + select_result + ' doesnt exist')
+	main()
 
 
 options = {'1':viewFiles,'2':viewFile, '3':updateResultsNetSecurity, '0':back}

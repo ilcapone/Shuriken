@@ -21,9 +21,18 @@ niktoModule_path = shuriken_path + "/crawler/WebVuls/nikto/program/nikto.pl"
 #Files Path
 niktoBasic_OutputData_path = shuriken_path + "/data/single_data"
 niktoCrawler_OutputData_path = shuriken_path + "/data/crawler_data/nikto_crawler_links.csv"
+niktoCrawler_OutputData_automatic = shuriken_path + "/data/crawler_data/"
 crawlerLinks_path = shuriken_path + "/data/crawler_data/crawler_links.csv"
+crawlerLinks_automatic = shuriken_path + "/data/crawler_data/"
 
 nikto_text = colored('nikto', 'red')
+
+# Global parameters for crawler proces storage
+crawlerProces_Parameters = dict()
+
+def define_crawlerProces_Parameters(parameters):
+    global crawlerProces_Parameters
+    crawlerProces_Parameters = parameters
 
 def __init__():
 	proxy=None
@@ -92,14 +101,13 @@ def crawler_nikto():
 def crawler_nikto_controller():
 	print "[$ "+nikto_text+" $] Start nikto from crawler!"
 	print "[$ "+nikto_text+" $] Open crawler_links.csv"
-	#px = raw_input('[$ nikto $] You want to use proxy? (y/n) > ')
-	px = 'n'
+	px = crawlerProces_Parameters.get('useproxy')
 	if px == 'y':
-		ip_port = raw_input('[$ '+nikto_text+' $] Insert proxy IP:PORT > ')
-		proxy = '-useproxy http://'+ str(ip_port) +'/'
+		proxy = '-useproxy http://'+ str(crawlerProces_Parameters.get('proxyIP')) +'/'
 	else:
 		proxy = None
-	fName = crawlerLinks_path
+
+	fName = crawlerLinks_automatic + crawlerProces_Parameters.get('folder') + "/crawler_links.csv"
 	if os.path.exists(fName):
 		with open(fName, 'r') as f:
 			try:
@@ -135,11 +143,12 @@ def launch_nikto(url, proxy):
 	else:
 		print "[$ "+nikto_text+" $] Starting nikto scanning " + url
 		switches = url
+		niktoStorage = niktoCrawler_OutputData_automatic + crawlerProces_Parameters.get('folder') + "/nikto_crawler_links.csv"
 		if proxy is not None:
 			print "[$ "+nikto_text+" $] Starting nikto ... adicional param: " + str(proxy)
-			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output " + niktoCrawler_OutputData_path
+			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output " + niktoStorage
 			subprocess.call(nikto,shell = True)
 		else:
 			print "[$ "+nikto_text+" $] Starting nikto ..."
-			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -Display -F csv -output " + niktoCrawler_OutputData_path
+			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -Display -F csv -output " + niktoStorage
 			subprocess.call(nikto,shell = True)
