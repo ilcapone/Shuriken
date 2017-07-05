@@ -146,9 +146,9 @@ def launch_nikto(url, proxy):
 		niktoStorage = niktoCrawler_OutputData_automatic + crawlerProces_Parameters.get('folder') + "/nikto_crawler_links.csv"
 		if proxy is not None:
 			print "[$ "+nikto_text+" $] Starting nikto ... adicional param: " + str(proxy)
-			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -C all -Display -F csv -output " + niktoStorage
+			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " " + str(proxy) +" -Display -F csv -output " + niktoStorage
 			subprocess.call(nikto,shell = True)
 		else:
 			print "[$ "+nikto_text+" $] Starting nikto ..."
-			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -C all -Display -F csv -output " + niktoStorage
+			nikto = "perl "+ niktoModule_path + " -host " + str(switches) + " -Display -F csv -output " + niktoStorage
 			subprocess.call(nikto,shell = True)

@@ -44,7 +44,7 @@ Menu_proceses_text = colored('Active Processes','red')
 # Global parameters for crawler proces storage
 crawlerProces_Parameters = dict()
 
-def define_crawlerProces_Parameters(folder, useproxy, proxyIP):
+def define_crawlerProces_Parameters(folder, useproxy, proxyIP, usenmap):
 	global crawlerProces_Parameters
 	crawlerProces_Parameters['folder'] = folder
 	crawlerProces_Parameters['useproxy'] = useproxy
@@ -52,7 +52,8 @@ def define_crawlerProces_Parameters(folder, useproxy, proxyIP):
 	crawlerModule.define_crawlerProces_Parameters(crawlerProces_Parameters)
 	niktoModule.define_crawlerProces_Parameters(crawlerProces_Parameters)
 	localice.define_crawlerProces_Parameters(crawlerProces_Parameters)
-	nmapCrawler.define_crawlerProces_Parameters(crawlerProces_Parameters)
+	if 'y' in usenmap:
+		nmapCrawler.define_crawlerProces_Parameters(crawlerProces_Parameters)
 
 
 def info():
@@ -106,7 +107,7 @@ def crawler_complet_proces():
 		proxyIP = raw_input('[$ ' + shuriken_text + ' $] Insert proxy ip and port (IP:PORT) > ')
 	else:
 		proxyIP=None
-	define_crawlerProces_Parameters(folder, useproxy, proxyIP)
+	define_crawlerProces_Parameters(folder, useproxy, proxyIP, usenmap)
 	warning = colored('Start complet crawler process ..','yellow')
 	print "[$ "+controller_text+" $] " + warning
 	crawle_start()

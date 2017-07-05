@@ -9,7 +9,7 @@ data = shuriken_path + "/data/crawler_data/nmap_crawler.csv"
 nikto_data = shuriken_path + "/data/crawler_data/nikto_crawler_links.csv"
 nikto_storage = shuriken_path + "/data/crawler_data/"
 nmap_storage= shuriken_path + "/data/crawler_data/"
-csvwriter = open(data, "w")
+
 proxy_check=None
 
 #Global parameters for crawler proces storage
@@ -57,6 +57,7 @@ def check_current_ip(curr_ip):
 
 def evade_ids_crwler(current_ip):
 	global proxy_check
+	csvwriter = open(data, "w")
 	nm = nmap.PortScanner()
 	ip = current_ip
 	portRank = '0-65535'
