@@ -14,7 +14,6 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Crawler", tabName = "scan", icon = icon("free-code-camp")),
       menuItem("OpenVAS", tabName = "openvas", icon = icon("eye")),
-      menuItem("GeoIP", tabName = "geoip", icon = icon("bar-chart")),
       menuItem("CVES", tabName = "searchVuls", icon = icon("bolt"))
     )
     
@@ -39,20 +38,18 @@ ui <- dashboardPage(
               dataTableOutput("nmap_vulneravilitis"),
               h2("Nikto results"),
               dataTableOutput("nikto_vulneravilitis"),
+              h2("Geolocation of IPs"),
+              fluidRow(
+                leafletOutput("geoip_map",width="100%",height="900px")
+              ),
               h2("Number of vulneravilities per web"),
               fluidRow(
                 box(plotOutput("numverofvuls", height = 1000),
                     width = 12)
               )
               
-      ),
-      
-      # Third tab content
-      tabItem(tabName = "geoip",
-              leafletOutput("geoip_map",width="100%",height="900px")
               
       ),
-      
       # Third tab content
       tabItem(tabName = "openvas",
               fluidRow(
